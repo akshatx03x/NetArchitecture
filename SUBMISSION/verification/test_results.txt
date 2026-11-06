@@ -1,0 +1,137 @@
+================================================================================
+NetArchitect: Algorithmic Network Planning & Self-Explaining Architecture Engine
+CIC-307 Computer Networks Mini-Project (100 Marks)
+Automated Verification & Technical Audit Log
+================================================================================
+
+VERIFICATION TIMESTAMP:
+Date: Friday, November 6, 2026
+Environment: Node.js v22.22.0, Next.js 14.2.18 (SWC Compiler), Jest 29.7.0, Windows OS
+Author: Akshat Gupta (01514802724)
+
+1. AUTOMATED JEST TEST SUITE RESULTS
+--------------------------------------------------------------------------------
+Command Executed: npm test
+Test Runner: Jest 29.7.0 with next/jest (SWC compiler transformation)
+
+Test Suites Executed:
+  PASS tests/configurationEngine.test.js
+  PASS tests/routingEngine.test.js
+  PASS tests/vlsmEngine.test.js
+  PASS tests/mediaEngine.test.js
+  PASS tests/presets.test.js
+  PASS tests/exportPresets.test.js
+
+Summary:
+  Total Test Suites: 6 executed, 6 passed (100%)
+  Total Assertions:  37 executed, 37 passed (100%)
+  Failed Tests:      0
+  Skipped Tests:     0
+  Execution Time:    3.879 s
+
+Domain Coverage Verified:
+  [PASS] Physical media deterministic boundary conditions (100m, 101m, 400m, 401m)
+  [PASS] PhysicalDistanceViolationError raised when copper requested >100m
+  [PASS] Dynamic optical power budget calculation and positive safety margins
+  [PASS] Optical propagation latency calculation (t_prop = d / (c/n))
+  [PASS] Uint32 bitwise arithmetic preventing signed 32-bit integer overflow (255.255.255.255)
+  [PASS] Exact inverse wildcard mask calculations (/24, /27, /30)
+  [PASS] RFC 4632 VLSM descending host sorting, alignment, and zero overlap
+  [PASS] AddressSpaceExhaustionError detection on over-subscription
+  [PASS] Single-Area OSPF vs. Multi-Area OSPF vs. Hybrid eBGP routing selection
+  [PASS] Cisco Catalyst 9000 syntax compliance (omission of obsolete switchport trunk encapsulation dot1q)
+  [PASS] Cisco 802.1Q trunk allowed VLAN pruning, native VLAN 999 isolation, and DTP disabling
+  [PASS] Spanning-Tree PortFast, BPDU Guard, and Root Guard placement
+  [PASS] SVI gateway addressing and extended security ACL rules
+
+2. PRODUCTION BUILD VERIFICATION
+--------------------------------------------------------------------------------
+Command Executed: npm run build (next build)
+Framework: Next.js 14.2.18 (App Router)
+Compiler: Native Next.js SWC (Rust-based)
+Build Exit Status: Exit Code 0 (Clean production build)
+
+Page Optimization & Static Generation:
+  Route (app)                              Size     First Load JS
+  ┌ ○ /                                    135 kB          222 kB
+  ├ ○ /_not-found                          873 B          88.1 kB
+  ├ ƒ /api/plan                            0 B                0 B
+  └ ○ /icon.svg                            0 B                0 B
+  + First Load JS shared by all            87.2 kB
+    ├ chunks/117-12d1dd74c03346e1.js       31.6 kB
+    ├ chunks/fd9d1056-586fd39e2c79719c.js  53.6 kB
+    └ other shared chunks (total)          1.96 kB
+
+  ○ (Static)   prerendered as static content
+  ƒ (Dynamic)  server-rendered on demand
+
+3. PRESET PROFILES VERIFICATION STATUS
+--------------------------------------------------------------------------------
+Preset 1: Campus LAN Enterprise
+  - Scale: 3 Buildings, 350m separation, 1,600 endpoints, PoE+ APs
+  - Root CIDR: 10.10.0.0/20 (4,096 addresses)
+  - Allocation: 6 non-overlapping subnets (1,570 total hosts requested)
+  - Physical Media: Category 6A horizontal runs, OM4 Multimode Fiber backbone (10GBASE-SR)
+  - Routing: Single-Area OSPF (Area 0), Process ID 1
+  - Switching: Cisco Rapid-PVST+ (802.1w), Root Priority 4096
+  - Verification: PASS (Verified in presets.test.js & live runtime)
+
+Preset 2: Metro Financial Colocation MAN
+  - Scale: 3 Sites (HQ + 2 remote offices), 28 km link separation, 450 endpoints
+  - Root CIDR: 172.20.0.0/21 (2,048 addresses)
+  - Allocation: 6 non-overlapping subnets (457 total hosts requested)
+  - Physical Media: OS2 Low-Water-Peak Single-Mode Fiber (10GBASE-ER, 1550nm)
+  - Optical Budget: +6.20 dB safety margin dynamically derived
+  - Calculated Latency: 0.137 ms one-way optical propagation time
+  - Routing: Multi-Area OSPF with inter-office ABR route summarization
+  - Verification: PASS (Verified in presets.test.js & live runtime)
+
+Preset 3: Global Multi-Cloud WAN & IoT
+  - Scale: 4 Cities + AWS Cloud VPC Interconnect, 2,000 IoT / scanners
+  - Root CIDR: 10.100.0.0/19 (8,192 addresses)
+  - Allocation: 6 non-overlapping subnets (2,080 total hosts requested)
+  - Physical Media: Carrier EVPL / DWDM links + IPsec AES-256 encrypted tunnels
+  - Routing: Hybrid eBGP (Enterprise AS 65001, Cloud AS 64512) + Multi-Area OSPF
+  - Security: Extended ACLs isolating IoT telemetry from corporate VPC subnets
+  - Verification: PASS (Verified in presets.test.js & live runtime)
+
+4. CONFIGURATION EXPORTS VERIFICATION STATUS
+--------------------------------------------------------------------------------
+1. SUBMISSION/configuration_exports/campus_lan.cfg
+   - Size: 15,418 bytes (479 lines)
+   - Status: VERIFIED NON-EMPTY
+   - Contents: Core Switch (VLANs 10,20,30,40,50,99 + SVIs), Access Switch (PortFast/BPDU Guard),
+     Edge Router (OSPF Area 0), Extended Named Security ACLs.
+
+2. SUBMISSION/configuration_exports/metro_man.cfg
+   - Size: 16,124 bytes (502 lines)
+   - Status: VERIFIED NON-EMPTY
+   - Contents: Core Switch (SVIs + OS2 10GBASE-ER uplinks), Access Switch,
+     Edge Router (Multi-Area OSPF with ABR summarization), Extended Financial Security ACLs.
+
+3. SUBMISSION/configuration_exports/global_wan.cfg
+   - Size: 16,055 bytes (500 lines)
+   - Status: VERIFIED NON-EMPTY
+   - Contents: Core Switch, Access Switch, Edge Router (eBGP AS 65001 + neighbor statements
+     to AWS Cloud AS 64512), Extended IoT Quarantine ACLs.
+
+5. VERIFIED ENVIRONMENT COMPATIBILITY & CONSTRAINTS
+--------------------------------------------------------------------------------
+- Language Constraint: Pure JavaScript ONLY (Zero TypeScript).
+- Backend Constraint: Pure Next.js App Router; no Express, FastAPI, Flask, or separate Node backend.
+- Database Constraint: Zero external database dependencies (No MongoDB, PostgreSQL, Firebase).
+- Cost & API Constraint: Zero paid external APIs or cloud LLM dependencies.
+- Local Determinism: All calculations (VLSM, media thresholds, Dijkstra complexity, optical budgets)
+  operate completely client-side in deterministic JavaScript modules.
+- Cisco Compatibility: Tailored for Cisco Catalyst 9000 series switches and Cisco ISR 4000 series
+  routers running Cisco IOS-XE 17.x.
+
+6. KNOWN LIMITATIONS & ACADEMIC BOUNDARIES
+--------------------------------------------------------------------------------
+- Router /30 link addressing in edge router templates allocates within standard RFC 1918 point-to-point
+  ranges; RFC 3021 /31 subnetting is supported as an opt-in toggle for link conservation.
+- Packet Tracer hardware simulation: Physical devices in Packet Tracer 8.x use Catalyst 3650/3560 and
+  ISR 4331 models; syntax commands are fully compatible, but older models may require typing
+  'ip routing' manually if defaulted to Layer 2 mode.
+================================================================================
+

@@ -1,0 +1,864 @@
+{
+  "scenario": {
+    "id": "metro-man",
+    "name": "Metro Financial Colocation MAN",
+    "networkType": "Metro MAN",
+    "description": "Metropolitan Area Network connecting Financial HQ to two remote offices over 15–35 km carrier EVPL links with OS2 fiber, dual-homed failover, and sub-5ms low latency SLA target.",
+    "buildingsCount": 3,
+    "sitesCount": 3,
+    "endpoints": 450,
+    "distanceMeters": 28000,
+    "requestedBandwidth": "10 Gbps",
+    "redundancy": "Dual-Homed",
+    "poeRequired": true,
+    "cloudIntegration": false,
+    "qosEnabled": true,
+    "rootCidr": "172.20.0.0/21",
+    "departments": [
+      {
+        "name": "HQ Low-Latency Trading Desk",
+        "hosts": 180,
+        "vlanId": 10,
+        "description": "Direct market access financial traders"
+      },
+      {
+        "name": "Remote Office 1 (Fintech Ops)",
+        "hosts": 120,
+        "vlanId": 20,
+        "description": "Compliance, risk analytics, and client support"
+      },
+      {
+        "name": "Remote Office 2 (Operations & DR)",
+        "hosts": 80,
+        "vlanId": 30,
+        "description": "Disaster recovery and developer engineering"
+      },
+      {
+        "name": "Colocation Secure Financial Core",
+        "hosts": 40,
+        "vlanId": 40,
+        "description": "Proprietary algorithmic execution servers"
+      },
+      {
+        "name": "Real-time Market Feeds & Voice",
+        "hosts": 25,
+        "vlanId": 50,
+        "description": "Multicast market data and VoIP dealer turrets"
+      },
+      {
+        "name": "Out-of-Band Network Operations",
+        "hosts": 12,
+        "vlanId": 99,
+        "description": "Encrypted management network and console servers"
+      }
+    ]
+  },
+  "validationWarnings": [],
+  "media": {
+    "distanceMeters": 28000,
+    "distanceDisplay": "28.00 km",
+    "mediaType": "OS2 Single-Mode Fiber (SMF 9/125 µm)",
+    "transceiver": "10GBASE-ER SFP+ (1550nm Extended Reach Laser)",
+    "standard": "IEEE 802.3ae (10GBASE-ER) / ITU-T G.652.D",
+    "threshold": "Above 400m (Campus Inter-Building & Long-Haul MAN/WAN)",
+    "wavelength": "1550 nm (EML Laser)",
+    "connector": "LC Duplex (or SC/APC for Carrier Telco Hand-off)",
+    "technicalReason": "For link distances above 400m (28.0 km requested), OS2 Single-Mode Fiber (9/125 µm core) eliminates modal dispersion entirely. Core diameter permits only a single fundamental transverse optical mode, enabling high-bandwidth transmission over tens of kilometers. Interface \"10GBASE-ER SFP+ (1550nm Extended Reach Laser)\" was selected to guarantee optical link margin over the required span.",
+    "opticalBudget": {
+      "distanceKm": 28,
+      "txPowerMinDbm": -4.7,
+      "rxSensitivityDbm": -15.8,
+      "totalBudgetDb": 11.1,
+      "totalPowerBudgetDb": 11.1,
+      "fiberAttenuationDbPerKm": 0.25,
+      "fiberLossDb": 7,
+      "connectorLossDb": 1.5,
+      "spliceLossDb": 0.5,
+      "totalChannelLossDb": 9,
+      "calculatedMarginDb": 2.1,
+      "isFeasible": true
+    },
+    "assumptions": [
+      "Low water-peak ITU-T G.652.D single-mode fiber infrastructure.",
+      "Optical attenuation calculated at 1310nm (~0.35-0.4 dB/km) or 1550nm (~0.22-0.25 dB/km).",
+      "Receiver optical power monitored via SFP+ Digital Optical Monitoring (DOM / SFF-8472) to prevent receiver saturation."
+    ],
+    "limitations": [
+      "Single-mode laser transceivers generate higher thermal dissipation and carry a higher cost per optic than multimode optics.",
+      "Slightly higher installation precision and clean-splice verification required."
+    ],
+    "alternativesRejected": [
+      {
+        "technology": "OM4 Multimode Fiber",
+        "reason": "Exceeds the 400m modal dispersion limit of OM4 10GBASE-SR by 27600m; severe pulse spreading causes bit error rate (BER) collapse."
+      },
+      {
+        "technology": "Cat6a Copper",
+        "reason": "Exceeds the 100m copper channel limit by 27900m."
+      }
+    ]
+  },
+  "vlsm": {
+    "rootNetwork": "172.20.0.0/21",
+    "rootNetworkIp": "172.20.0.0",
+    "rootBroadcastIp": "172.20.7.255",
+    "rootTotalAddresses": 2048,
+    "allocatedSubnets": [
+      {
+        "name": "HQ Low-Latency Trading Desk",
+        "vlanId": 10,
+        "requestedHosts": 180,
+        "prefix": 24,
+        "cidr": "172.20.0.0/24",
+        "networkAddress": "172.20.0.0",
+        "subnetMask": "255.255.255.0",
+        "wildcardMask": "0.0.0.255",
+        "firstUsable": "172.20.0.1",
+        "lastUsable": "172.20.0.254",
+        "broadcastAddress": "172.20.0.255",
+        "defaultGateway": "172.20.0.1",
+        "totalAddresses": 256,
+        "usableHosts": 254,
+        "utilizationPercent": 70.9,
+        "mathSteps": [
+          "Requested hosts: 180",
+          "Formula: 2^H - 2 >= 180 (where H = host bits)",
+          "Calculated host bits H = 8, prefix = 32 - 8 = /24",
+          "Total block size: 2^8 = 256 IP addresses",
+          "Subnet boundary: Aligned on block boundary 172.20.0.0",
+          "Subnet mask: 255.255.255.0 (Wildcard: 0.0.0.255)",
+          "Usable range: 172.20.0.1 to 172.20.0.254 (254 usable)",
+          "Default Gateway (First usable): 172.20.0.1"
+        ]
+      },
+      {
+        "name": "Remote Office 1 (Fintech Ops)",
+        "vlanId": 20,
+        "requestedHosts": 120,
+        "prefix": 25,
+        "cidr": "172.20.1.0/25",
+        "networkAddress": "172.20.1.0",
+        "subnetMask": "255.255.255.128",
+        "wildcardMask": "0.0.0.127",
+        "firstUsable": "172.20.1.1",
+        "lastUsable": "172.20.1.126",
+        "broadcastAddress": "172.20.1.127",
+        "defaultGateway": "172.20.1.1",
+        "totalAddresses": 128,
+        "usableHosts": 126,
+        "utilizationPercent": 95.2,
+        "mathSteps": [
+          "Requested hosts: 120",
+          "Formula: 2^H - 2 >= 120 (where H = host bits)",
+          "Calculated host bits H = 7, prefix = 32 - 7 = /25",
+          "Total block size: 2^7 = 128 IP addresses",
+          "Subnet boundary: Aligned on block boundary 172.20.1.0",
+          "Subnet mask: 255.255.255.128 (Wildcard: 0.0.0.127)",
+          "Usable range: 172.20.1.1 to 172.20.1.126 (126 usable)",
+          "Default Gateway (First usable): 172.20.1.1"
+        ]
+      },
+      {
+        "name": "Remote Office 2 (Operations & DR)",
+        "vlanId": 30,
+        "requestedHosts": 80,
+        "prefix": 25,
+        "cidr": "172.20.1.128/25",
+        "networkAddress": "172.20.1.128",
+        "subnetMask": "255.255.255.128",
+        "wildcardMask": "0.0.0.127",
+        "firstUsable": "172.20.1.129",
+        "lastUsable": "172.20.1.254",
+        "broadcastAddress": "172.20.1.255",
+        "defaultGateway": "172.20.1.129",
+        "totalAddresses": 128,
+        "usableHosts": 126,
+        "utilizationPercent": 63.5,
+        "mathSteps": [
+          "Requested hosts: 80",
+          "Formula: 2^H - 2 >= 80 (where H = host bits)",
+          "Calculated host bits H = 7, prefix = 32 - 7 = /25",
+          "Total block size: 2^7 = 128 IP addresses",
+          "Subnet boundary: Aligned on block boundary 172.20.1.128",
+          "Subnet mask: 255.255.255.128 (Wildcard: 0.0.0.127)",
+          "Usable range: 172.20.1.129 to 172.20.1.254 (126 usable)",
+          "Default Gateway (First usable): 172.20.1.129"
+        ]
+      },
+      {
+        "name": "Colocation Secure Financial Core",
+        "vlanId": 40,
+        "requestedHosts": 40,
+        "prefix": 26,
+        "cidr": "172.20.2.0/26",
+        "networkAddress": "172.20.2.0",
+        "subnetMask": "255.255.255.192",
+        "wildcardMask": "0.0.0.63",
+        "firstUsable": "172.20.2.1",
+        "lastUsable": "172.20.2.62",
+        "broadcastAddress": "172.20.2.63",
+        "defaultGateway": "172.20.2.1",
+        "totalAddresses": 64,
+        "usableHosts": 62,
+        "utilizationPercent": 64.5,
+        "mathSteps": [
+          "Requested hosts: 40",
+          "Formula: 2^H - 2 >= 40 (where H = host bits)",
+          "Calculated host bits H = 6, prefix = 32 - 6 = /26",
+          "Total block size: 2^6 = 64 IP addresses",
+          "Subnet boundary: Aligned on block boundary 172.20.2.0",
+          "Subnet mask: 255.255.255.192 (Wildcard: 0.0.0.63)",
+          "Usable range: 172.20.2.1 to 172.20.2.62 (62 usable)",
+          "Default Gateway (First usable): 172.20.2.1"
+        ]
+      },
+      {
+        "name": "Real-time Market Feeds & Voice",
+        "vlanId": 50,
+        "requestedHosts": 25,
+        "prefix": 27,
+        "cidr": "172.20.2.64/27",
+        "networkAddress": "172.20.2.64",
+        "subnetMask": "255.255.255.224",
+        "wildcardMask": "0.0.0.31",
+        "firstUsable": "172.20.2.65",
+        "lastUsable": "172.20.2.94",
+        "broadcastAddress": "172.20.2.95",
+        "defaultGateway": "172.20.2.65",
+        "totalAddresses": 32,
+        "usableHosts": 30,
+        "utilizationPercent": 83.3,
+        "mathSteps": [
+          "Requested hosts: 25",
+          "Formula: 2^H - 2 >= 25 (where H = host bits)",
+          "Calculated host bits H = 5, prefix = 32 - 5 = /27",
+          "Total block size: 2^5 = 32 IP addresses",
+          "Subnet boundary: Aligned on block boundary 172.20.2.64",
+          "Subnet mask: 255.255.255.224 (Wildcard: 0.0.0.31)",
+          "Usable range: 172.20.2.65 to 172.20.2.94 (30 usable)",
+          "Default Gateway (First usable): 172.20.2.65"
+        ]
+      },
+      {
+        "name": "Out-of-Band Network Operations",
+        "vlanId": 99,
+        "requestedHosts": 12,
+        "prefix": 28,
+        "cidr": "172.20.2.96/28",
+        "networkAddress": "172.20.2.96",
+        "subnetMask": "255.255.255.240",
+        "wildcardMask": "0.0.0.15",
+        "firstUsable": "172.20.2.97",
+        "lastUsable": "172.20.2.110",
+        "broadcastAddress": "172.20.2.111",
+        "defaultGateway": "172.20.2.97",
+        "totalAddresses": 16,
+        "usableHosts": 14,
+        "utilizationPercent": 85.7,
+        "mathSteps": [
+          "Requested hosts: 12",
+          "Formula: 2^H - 2 >= 12 (where H = host bits)",
+          "Calculated host bits H = 4, prefix = 32 - 4 = /28",
+          "Total block size: 2^4 = 16 IP addresses",
+          "Subnet boundary: Aligned on block boundary 172.20.2.96",
+          "Subnet mask: 255.255.255.240 (Wildcard: 0.0.0.15)",
+          "Usable range: 172.20.2.97 to 172.20.2.110 (14 usable)",
+          "Default Gateway (First usable): 172.20.2.97"
+        ]
+      }
+    ],
+    "summary": {
+      "totalRequestedHosts": 457,
+      "totalAllocatedAddresses": 624,
+      "remainingAddresses": 1424,
+      "overallUtilizationPercent": 30.5,
+      "subnetsCount": 6,
+      "nextAvailableNetwork": "172.20.2.112"
+    }
+  },
+  "routing": {
+    "protocol": "Multi-Area OSPF (Hierarchical Link-State)",
+    "architecture": "Interior Gateway Protocol (IGP) - Area 0 Backbone with Regional Areas",
+    "rfcReferences": [
+      "RFC 2328: OSPF Version 2",
+      "RFC 3509: Alternative Implementations of OSPF Area Border Routers",
+      "RFC 1583: OSPF Version 2"
+    ],
+    "technicalExplanation": "With 3 sites and 6 subnets, a hierarchical multi-area OSPF design is mandated. Area 0 (Backbone) interconnects all Area Border Routers (ABRs). Each regional site is assigned a dedicated non-backbone area (e.g. Area 10, Area 20). This confines Type 1 and Type 2 LSA flooding and Dijkstra SPF calculations strictly within the originating area, isolating route churn and preserving router processing resources.",
+    "convergenceNotes": "Link flapping within one campus site only triggers SPF execution within its local area; other sites receive stable Type 3 Summary LSAs generated by the ABR.",
+    "summarizationPlan": "ABRs perform contiguous inter-area route summarization (e.g., using `area X range` Cisco IOS statements), collapsing dozens of departmental subnets into single summary prefixes announced into Area 0.",
+    "areaDesign": [
+      {
+        "area": "0.0.0.0 (Area 0)",
+        "role": "Core Backbone",
+        "description": "Interconnects core distribution layer and WAN routers."
+      },
+      {
+        "area": "0.0.0.10 (Area 10)",
+        "role": "Headquarters / Main Campus",
+        "description": "Local user and server access subnets."
+      },
+      {
+        "area": "0.0.0.20 (Area 20)",
+        "role": "Remote Site 1 / Colocation",
+        "description": "Regional branch or datacenter subnets."
+      },
+      {
+        "area": "0.0.0.30 (Area 30)",
+        "role": "Remote Site 2 / Secondary Site",
+        "description": "Regional branch subnets."
+      }
+    ],
+    "alternativesRejected": [
+      {
+        "protocol": "Single-Area OSPF Flat Topology",
+        "reason": "A flat Area 0 across multi-site links propagates every link flap globally, causing repeated full SPF tree recalculations across all routers."
+      },
+      {
+        "protocol": "Static Routing with Floating Backup",
+        "reason": "Unmaintainable at this scale; does not automatically adapt to link degradation or dynamic topology changes."
+      }
+    ],
+    "parametersAnalyzed": {
+      "subnetsCount": 6,
+      "sitesCount": 3,
+      "networkType": "Metro MAN",
+      "cloudIntegration": false,
+      "externalAsRequired": false
+    }
+  },
+  "topology": {
+    "topologyTier": "Dual-Homed Metro MAN (Carrier EVPL / Dark Fiber)",
+    "architectureName": "Spine/WAN Edge with Colocation Core & Redundant Branch Links",
+    "description": "Colocation HQ core routers connected via dual-homed OS2 fiber / EVPL to remote branch distribution switches with sub-second failover.",
+    "deviceEstimates": {
+      "coreRouters": 2,
+      "distributionSwitches": 4,
+      "accessSwitches": 12,
+      "firewallClusters": 2,
+      "wanCircuits": 4
+    },
+    "switchingStandards": [
+      "IEEE 802.1Q (VLAN Tagging)",
+      "IEEE 802.1w (Rapid Spanning Tree Protocol - RSTP)",
+      "IEEE 802.3ad (LACP Link Aggregation)",
+      "ITU-T G.8032 (Ethernet Ring Protection Switching for MANs)"
+    ],
+    "technicalJustification": "For Metro MAN environments connecting 3 locations across 28 km with Dual-Homed resiliency, a dual-homed WAN topology avoids single points of failure. HQ utilizes active-standby or active-active router pairs running HSRP/VRRP and BGP/OSPF with BFD over carrier EVPL.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "hq-dc-core",
+          "type": "default",
+          "data": {
+            "label": "HQ Core Colocation\nDual ASR 1001-X\n10GBASE-LR/ER",
+            "deviceType": "core-router"
+          },
+          "position": {
+            "x": 380,
+            "y": 40
+          },
+          "style": {
+            "background": "#141414",
+            "color": "#EDEDED",
+            "border": "1px solid #444444",
+            "borderRadius": "4px",
+            "padding": "10px",
+            "textAlign": "center",
+            "fontSize": "11px",
+            "fontFamily": "JetBrains Mono, monospace",
+            "width": 220
+          }
+        },
+        {
+          "id": "carrier-evpl",
+          "type": "default",
+          "data": {
+            "label": "Carrier EVPL Network\nOS2 Dark Fiber (15–35 km)\nSub-5ms SLA Target",
+            "deviceType": "carrier"
+          },
+          "position": {
+            "x": 390,
+            "y": 190
+          },
+          "style": {
+            "background": "#141414",
+            "color": "#EDEDED",
+            "border": "1px dashed #555555",
+            "borderRadius": "4px",
+            "padding": "10px",
+            "textAlign": "center",
+            "fontSize": "11px",
+            "fontFamily": "JetBrains Mono, monospace",
+            "width": 210
+          }
+        },
+        {
+          "id": "remote-1",
+          "type": "default",
+          "data": {
+            "label": "Remote Office 1 (22 km)\nFinTech Trading Floor\nVLAN 10/20",
+            "deviceType": "branch"
+          },
+          "position": {
+            "x": 180,
+            "y": 340
+          },
+          "style": {
+            "background": "#141414",
+            "color": "#EDEDED",
+            "border": "1px solid #2B2B2B",
+            "borderRadius": "4px",
+            "padding": "10px",
+            "textAlign": "center",
+            "fontSize": "11px",
+            "fontFamily": "JetBrains Mono, monospace",
+            "width": 200
+          }
+        },
+        {
+          "id": "remote-2",
+          "type": "default",
+          "data": {
+            "label": "Remote Office 2 (31 km)\nOperations & DR Site\nVLAN 30/40",
+            "deviceType": "branch"
+          },
+          "position": {
+            "x": 580,
+            "y": 340
+          },
+          "style": {
+            "background": "#141414",
+            "color": "#EDEDED",
+            "border": "1px solid #2B2B2B",
+            "borderRadius": "4px",
+            "padding": "10px",
+            "textAlign": "center",
+            "fontSize": "11px",
+            "fontFamily": "JetBrains Mono, monospace",
+            "width": 200
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "e-hq-carrier",
+          "source": "hq-dc-core",
+          "target": "carrier-evpl",
+          "label": "Primary 10G OS2",
+          "style": {
+            "stroke": "#666666",
+            "strokeWidth": 1.5
+          }
+        },
+        {
+          "id": "e-carrier-rem1",
+          "source": "carrier-evpl",
+          "target": "remote-1",
+          "label": "10GBASE-ER OS2",
+          "style": {
+            "stroke": "#666666",
+            "strokeWidth": 1.5
+          }
+        },
+        {
+          "id": "e-carrier-rem2",
+          "source": "carrier-evpl",
+          "target": "remote-2",
+          "label": "10GBASE-ER OS2",
+          "style": {
+            "stroke": "#666666",
+            "strokeWidth": 1.5
+          }
+        },
+        {
+          "id": "e-rem1-rem2",
+          "source": "remote-1",
+          "target": "remote-2",
+          "label": "Backup IPsec",
+          "style": {
+            "stroke": "#444444",
+            "strokeWidth": 1.5,
+            "strokeDasharray": "4 4"
+          }
+        }
+      ]
+    }
+  },
+  "configurations": {
+    "coreSwitch": {
+      "filename": "metro-financial-colocation-man-CORE-SW01.cfg",
+      "title": "Core/Distribution Switch Configuration",
+      "targetDevice": "Cisco Catalyst 9500 / 9300 (IOS-XE 17.x)",
+      "content": "! =====================================================================\n! NetArchitect Generated Configuration\n! Device: Core / Distribution Layer Switch 01\n! Hostname: METRO-FINANCIAL-COLOCATION-MAN-CORE-SW01\n! Platform Assumption: Cisco Catalyst 9500 / 9300 (IOS-XE 17.9+)\n! =====================================================================\nversion 17.9\nservice timestamps debug datetime msec\nservice timestamps log datetime msec\nservice password-encryption\n!\nhostname METRO-FINANCIAL-COLOCATION-MAN-CORE-SW01\n!\nboot-start-marker\nboot-end-marker\n!\n! Management & Security Baselines\nenable secret 9 $9$PlaceholderCoreSecret$NetArchitect\n!\naaa new-model\naaa authentication login default local\naaa authorization exec default local\nusername netadmin privilege 15 secret 9 $9$AdminSecret$2026Net\n!\nip routing\nip domain name netarchitect.internal\nip ssh version 2\nip ssh time-out 60\nip ssh authentication-retries 3\n!\n! Spanning Tree Protocol (IEEE 802.1w Rapid-PVST+)\n! Root Bridge Primary Configuration\nspanning-tree mode rapid-pvst\nspanning-tree extend system-id\nspanning-tree vlan 1-4094 priority 4096\n!\n! VLAN Database Definitions\nvlan 999\n name QUARANTINE_NATIVE\n!\nvlan 10\n name HQ_Low-Latency_Trading_Desk\n!\nvlan 20\n name Remote_Office_1_(Fintech_Ops)\n!\nvlan 30\n name Remote_Office_2_(Operations_&_DR)\n!\nvlan 40\n name Colocation_Secure_Financial_Core\n!\nvlan 50\n name Real-time_Market_Feeds_&_Voice\n!\nvlan 99\n name Out-of-Band_Network_Operations\n!\n! 802.1Q Core Downlink Trunks to Access Layer\n! Platform note: Modern Cisco Catalyst 9000 switches use IEEE 802.1Q exclusively.\n! Obsolete 'switchport trunk encapsulation dot1q' command is rejected on Cat 9000 and therefore omitted.\ninterface range TenGigabitEthernet1/0/1 - 4\n description 10G OM4/OS2 SFP+ 802.1Q Downlink Trunks to Access Switches\n switchport mode trunk\n switchport trunk native vlan 999\n switchport trunk allowed vlan 10,20,30,40,50,99\n switchport nonegotiate\n spanning-tree guard root\n no shutdown\n!\n! Port-Channel Inter-Switch Link (LACP - Core Redundancy)\ninterface Port-channel1\n description LACP Inter-Chassis Core Cross-Connect\n switchport mode trunk\n switchport trunk native vlan 999\n switchport trunk allowed vlan 10,20,30,40,50,99\n no shutdown\n!\ninterface range TenGigabitEthernet1/0/47 - 48\n description LACP Core Member Bundle\n channel-group 1 mode active\n!\n! Switched Virtual Interfaces (SVIs) - Default Gateways\ninterface Vlan10\n description SVI Gateway for HQ Low-Latency Trading Desk [VLAN 10]\n ip address 172.20.0.1 255.255.255.0\n no shutdown\n!\ninterface Vlan20\n description SVI Gateway for Remote Office 1 (Fintech Ops) [VLAN 20]\n ip address 172.20.1.1 255.255.255.128\n no shutdown\n!\ninterface Vlan30\n description SVI Gateway for Remote Office 2 (Operations & DR) [VLAN 30]\n ip address 172.20.1.129 255.255.255.128\n no shutdown\n!\ninterface Vlan40\n description SVI Gateway for Colocation Secure Financial Core [VLAN 40]\n ip address 172.20.2.1 255.255.255.192\n no shutdown\n!\ninterface Vlan50\n description SVI Gateway for Real-time Market Feeds & Voice [VLAN 50]\n ip address 172.20.2.65 255.255.255.224\n no shutdown\n!\ninterface Vlan99\n description SVI Gateway for Out-of-Band Network Operations [VLAN 99]\n ip address 172.20.2.97 255.255.255.240\n no shutdown\n!\n! Dynamic Routing Protocol: OSPF Process 1\nrouter ospf 1\n router-id 10.255.255.1\n log-adjacency-changes\n passive-interface default\n no passive-interface Vlan10\n no passive-interface Vlan20\n no passive-interface Vlan30\n no passive-interface Vlan40\n no passive-interface Vlan50\n no passive-interface Vlan99\n network 172.20.0.0 0.0.0.255 area 0\n network 172.20.1.0 0.0.0.127 area 0\n network 172.20.1.128 0.0.0.127 area 0\n network 172.20.2.0 0.0.0.63 area 0\n network 172.20.2.64 0.0.0.31 area 0\n network 172.20.2.96 0.0.0.15 area 0\n!\n! Line Security\nline con 0\n exec-timeout 5 0\n logging synchronous\n login authentication default\nline vty 0 4\n exec-timeout 10 0\n transport input ssh\n logging synchronous\n login authentication default\n!\nend\nwrite memory"
+    },
+    "accessSwitch": {
+      "filename": "metro-financial-colocation-man-ACC-SW01.cfg",
+      "title": "Access Switch Configuration",
+      "targetDevice": "Cisco Catalyst 9200 (IOS-XE 17.x)",
+      "content": "! =====================================================================\n! NetArchitect Generated Configuration\n! Device: Layer 2 Access Switch 01\n! Hostname: METRO-FINANCIAL-COLOCATION-MAN-ACC-SW01\n! Platform Assumption: Cisco Catalyst 9200L-48P (IOS-XE 17.9+)\n! =====================================================================\nversion 17.9\nservice timestamps debug datetime msec\nservice timestamps log datetime msec\nservice password-encryption\n!\nhostname METRO-FINANCIAL-COLOCATION-MAN-ACC-SW01\n!\nenable secret 9 $9$PlaceholderAccSecret$NetArchitect\n!\nusername netadmin privilege 15 secret 9 $9$AdminSecret$2026Net\n!\nno ip routing\nip default-gateway 172.20.0.1\n!\n! Rapid PVST+ Access Protection\nspanning-tree mode rapid-pvst\nspanning-tree portfast default\nspanning-tree portfast bpduguard default\n!\n! VLAN Definitions\nvlan 999\n name QUARANTINE_NATIVE\n!\nvlan 10\n name HQ_Low-Latency_Trading_Desk\n!\nvlan 20\n name Remote_Office_1_(Fintech_Ops)\n!\nvlan 30\n name Remote_Office_2_(Operations_&_DR)\n!\nvlan 40\n name Colocation_Secure_Financial_Core\n!\nvlan 50\n name Real-time_Market_Feeds_&_Voice\n!\nvlan 99\n name Out-of-Band_Network_Operations\n!\n! Redundant 802.1Q Trunks to Core/Distribution\ninterface GigabitEthernet1/0/49\n description Primary Trunk to Core Switch 01\n switchport mode trunk\n switchport trunk native vlan 999\n switchport trunk allowed vlan 10,20,30,40,50,99\n switchport nonegotiate\n no shutdown\n!\ninterface GigabitEthernet1/0/50\n description Secondary Trunk to Core Switch 02\n switchport mode trunk\n switchport trunk native vlan 999\n switchport trunk allowed vlan 10,20,30,40,50,99\n switchport nonegotiate\n no shutdown\n!\n! End-User Workstation Ports (VLAN 10)\ninterface range GigabitEthernet1/0/1 - 24\n description Standard User Workstations\n switchport mode access\n switchport access vlan 10\n switchport nonegotiate\n spanning-tree portfast\n spanning-tree bpduguard enable\n power inline auto\n no shutdown\n!\n! PoE Access Point Uplink Ports\ninterface range GigabitEthernet1/0/25 - 28\n description 802.11ax Wi-Fi Access Points (PoE+ Enabled)\n switchport mode access\n switchport access vlan 10\n power inline auto\n spanning-tree portfast\n no shutdown\n!\n! Hardened Unused Ports - Administratively Disabled to prevent rogue taps\ninterface range GigabitEthernet1/0/29 - 48\n description UNUSED_RESERVED_PORTS\n switchport mode access\n switchport access vlan 999\n shutdown\n!\n! Management SVI\ninterface Vlan10\n description In-Band Management SVI\n ip address 172.20.0.5 255.255.255.0\n no shutdown\n!\nline con 0\n exec-timeout 5 0\n login local\nline vty 0 4\n transport input ssh\n exec-timeout 10 0\n login local\n!\nend\nwrite memory"
+    },
+    "edgeRouter": {
+      "filename": "metro-financial-colocation-man-EDGE-RTR01.cfg",
+      "title": "Border / Edge Router Configuration",
+      "targetDevice": "Cisco ISR 4451 / ASR 1001-X (IOS-XE 17.x)",
+      "content": "! =====================================================================\n! NetArchitect Generated Configuration\n! Device: Border / WAN Edge Router 01\n! Hostname: METRO-FINANCIAL-COLOCATION-MAN-EDGE-RTR01\n! Platform Assumption: Cisco ISR 4451 / ASR 1001-X (IOS-XE 17.9+)\n! =====================================================================\nversion 17.9\nservice timestamps debug datetime msec\nservice timestamps log datetime msec\nservice password-encryption\n!\nhostname METRO-FINANCIAL-COLOCATION-MAN-EDGE-RTR01\n!\nenable secret 9 $9$PlaceholderRtrSecret$NetArchitect\n!\nip routing\nip cef\n!\n! Core LAN Facing Interface (Downlink to Core Switches)\ninterface GigabitEthernet0/0/0\n description Downlink to LAN Core Switch 01\n ip address 10.255.0.1 255.255.255.252\n ip ospf 1 area 0\n no shutdown\n!\n! WAN / Carrier Facing Interface\ninterface GigabitEthernet0/0/1\n description WAN Uplink to Carrier Provider / EVPL\n ip address 198.51.100.2 255.255.255.252\n ip access-group WAN_INBOUND_FILTER in\n no shutdown\n!\n!\n! External BGP Peering (eBGP AS 65001 to Cloud/Carrier AS 64512)\nrouter bgp 65001\n bgp log-neighbor-changes\n neighbor 198.51.100.1 remote-as 64512\n neighbor 198.51.100.1 description Primary Carrier / Cloud VPC Gateway\n neighbor 198.51.100.1 fall-over bfd\n !\n address-family ipv4\n  neighbor 198.51.100.1 activate\n  neighbor 198.51.100.1 prefix-list SUMMARY_ONLY out\n  network 172.20.0.0 mask 255.255.255.0\n exit-address-family\n!\n!\n! Internal Dynamic Routing: OSPF Process 1\nrouter ospf 1\n router-id 10.255.255.254\n log-adjacency-changes\n passive-interface GigabitEthernet0/0/1\n network 172.20.0.0 0.0.0.255 area 0\n network 172.20.1.0 0.0.0.127 area 0\n network 172.20.1.128 0.0.0.127 area 0\n network 172.20.2.0 0.0.0.63 area 0\n network 172.20.2.64 0.0.0.31 area 0\n network 172.20.2.96 0.0.0.15 area 0\n!\n! Static Default Route to Carrier Gateway\nip route 0.0.0.0 0.0.0.0 198.51.100.1\n!\n! WAN Edge Security Filter\nip access-list extended WAN_INBOUND_FILTER\n remark Block Inbound RFC 1918 Private Addresses (Anti-Spoofing)\n deny ip 10.0.0.0 0.255.255.255 any\n deny ip 172.16.0.0 0.15.255.255 any\n deny ip 192.168.0.0 0.0.255.255 any\n remark Permit Established State Sessions\n permit tcp any any established\n remark Permit Essential ICMP Diagnostics\n permit icmp any any echo-reply\n permit icmp any any unreachable\n permit icmp any any time-exceeded\n remark Permit IPsec VPN Tunnels\n permit esp any host 198.51.100.2\n permit udp any host 198.51.100.2 eq isakmp\n permit udp any host 198.51.100.2 eq non500-isakmp\n remark Deny All Other Inbound Traffic\n deny ip any any log\n!\nend\nwrite memory"
+    },
+    "securityAcl": {
+      "filename": "metro-financial-colocation-man-SECURITY-ACLS.cfg",
+      "title": "Network Access Control Lists (ACLs) & Hardening",
+      "targetDevice": "Cisco IOS-XE Multi-Device Application",
+      "content": "! =====================================================================\n! NetArchitect Security Policy & Extended ACL Definitions\n! Target: Layer 3 Distribution Switch / Firewall Interface ACLs\n! Project: Metro Financial Colocation MAN\n! =====================================================================\n!\n! Management Plane Protection (MPP) - Authorized Admins Only\nip access-list standard ACL_MANAGEMENT_ACCESS\n remark Permit Network Operations Center (NOC) Workstations\n permit 10.255.0.0 0.0.0.255\n permit 192.168.1.0 0.0.0.31\n deny any log\n!\nremark Isolation and Policy for HQ Low-Latency Trading Desk [VLAN 10]\nip access-list extended ACL_HQ_LOW-LATENCY_TRADING_DESK\n remark Allow DHCP and DNS resolution\n permit udp 172.20.0.0 0.0.0.255 any eq bootps\n permit udp 172.20.0.0 0.0.0.255 any eq domain\n permit tcp 172.20.0.0 0.0.0.255 any eq domain\n remark Allow Outbound Web Traffic (HTTP/HTTPS)\n permit tcp 172.20.0.0 0.0.0.255 any eq 80\n permit tcp 172.20.0.0 0.0.0.255 any eq 443\n remark Prevent unauthorized cross-VLAN probing\n deny ip 172.20.0.0 0.0.0.255 10.0.0.0 0.255.255.255\n deny ip 172.20.0.0 0.0.0.255 172.16.0.0 0.15.255.255\n deny ip 172.20.0.0 0.0.0.255 192.168.0.0 0.0.255.255\n remark Permit all other external internet access\n permit ip 172.20.0.0 0.0.0.255 any\n deny ip any any log\n!\n\nremark Isolation and Policy for Remote Office 1 (Fintech Ops) [VLAN 20]\nip access-list extended ACL_REMOTE_OFFICE_1_(FINTECH_OPS)\n remark Allow DHCP and DNS resolution\n permit udp 172.20.1.0 0.0.0.127 any eq bootps\n permit udp 172.20.1.0 0.0.0.127 any eq domain\n permit tcp 172.20.1.0 0.0.0.127 any eq domain\n remark Allow Outbound Web Traffic (HTTP/HTTPS)\n permit tcp 172.20.1.0 0.0.0.127 any eq 80\n permit tcp 172.20.1.0 0.0.0.127 any eq 443\n remark Prevent unauthorized cross-VLAN probing\n deny ip 172.20.1.0 0.0.0.127 10.0.0.0 0.255.255.255\n deny ip 172.20.1.0 0.0.0.127 172.16.0.0 0.15.255.255\n deny ip 172.20.1.0 0.0.0.127 192.168.0.0 0.0.255.255\n remark Permit all other external internet access\n permit ip 172.20.1.0 0.0.0.127 any\n deny ip any any log\n!\n\nremark Isolation and Policy for Remote Office 2 (Operations & DR) [VLAN 30]\nip access-list extended ACL_REMOTE_OFFICE_2_(OPERATIONS_&_DR)\n remark Allow DHCP and DNS resolution\n permit udp 172.20.1.128 0.0.0.127 any eq bootps\n permit udp 172.20.1.128 0.0.0.127 any eq domain\n permit tcp 172.20.1.128 0.0.0.127 any eq domain\n remark Allow Outbound Web Traffic (HTTP/HTTPS)\n permit tcp 172.20.1.128 0.0.0.127 any eq 80\n permit tcp 172.20.1.128 0.0.0.127 any eq 443\n remark Prevent unauthorized cross-VLAN probing\n deny ip 172.20.1.128 0.0.0.127 10.0.0.0 0.255.255.255\n deny ip 172.20.1.128 0.0.0.127 172.16.0.0 0.15.255.255\n deny ip 172.20.1.128 0.0.0.127 192.168.0.0 0.0.255.255\n remark Permit all other external internet access\n permit ip 172.20.1.128 0.0.0.127 any\n deny ip any any log\n!\n\nremark Isolation and Policy for Colocation Secure Financial Core [VLAN 40]\nip access-list extended ACL_COLOCATION_SECURE_FINANCIAL_CORE\n remark Allow DHCP and DNS resolution\n permit udp 172.20.2.0 0.0.0.63 any eq bootps\n permit udp 172.20.2.0 0.0.0.63 any eq domain\n permit tcp 172.20.2.0 0.0.0.63 any eq domain\n remark Allow Outbound Web Traffic (HTTP/HTTPS)\n permit tcp 172.20.2.0 0.0.0.63 any eq 80\n permit tcp 172.20.2.0 0.0.0.63 any eq 443\n remark Prevent unauthorized cross-VLAN probing\n deny ip 172.20.2.0 0.0.0.63 10.0.0.0 0.255.255.255\n deny ip 172.20.2.0 0.0.0.63 172.16.0.0 0.15.255.255\n deny ip 172.20.2.0 0.0.0.63 192.168.0.0 0.0.255.255\n remark Permit all other external internet access\n permit ip 172.20.2.0 0.0.0.63 any\n deny ip any any log\n!\n\nremark Isolation and Policy for Real-time Market Feeds & Voice [VLAN 50]\nip access-list extended ACL_REAL-TIME_MARKET_FEEDS_&_VOICE\n remark Allow DHCP and DNS resolution\n permit udp 172.20.2.64 0.0.0.31 any eq bootps\n permit udp 172.20.2.64 0.0.0.31 any eq domain\n permit tcp 172.20.2.64 0.0.0.31 any eq domain\n remark Allow Outbound Web Traffic (HTTP/HTTPS)\n permit tcp 172.20.2.64 0.0.0.31 any eq 80\n permit tcp 172.20.2.64 0.0.0.31 any eq 443\n remark Prevent unauthorized cross-VLAN probing\n deny ip 172.20.2.64 0.0.0.31 10.0.0.0 0.255.255.255\n deny ip 172.20.2.64 0.0.0.31 172.16.0.0 0.15.255.255\n deny ip 172.20.2.64 0.0.0.31 192.168.0.0 0.0.255.255\n remark Permit all other external internet access\n permit ip 172.20.2.64 0.0.0.31 any\n deny ip any any log\n!\n\nremark Isolation and Policy for Out-of-Band Network Operations [VLAN 99]\nip access-list extended ACL_OUT-OF-BAND_NETWORK_OPERATIONS\n remark Allow DHCP and DNS resolution\n permit udp 172.20.2.96 0.0.0.15 any eq bootps\n permit udp 172.20.2.96 0.0.0.15 any eq domain\n permit tcp 172.20.2.96 0.0.0.15 any eq domain\n remark Allow Outbound Web Traffic (HTTP/HTTPS)\n permit tcp 172.20.2.96 0.0.0.15 any eq 80\n permit tcp 172.20.2.96 0.0.0.15 any eq 443\n remark Prevent unauthorized cross-VLAN probing\n deny ip 172.20.2.96 0.0.0.15 10.0.0.0 0.255.255.255\n deny ip 172.20.2.96 0.0.0.15 172.16.0.0 0.15.255.255\n deny ip 172.20.2.96 0.0.0.15 192.168.0.0 0.0.255.255\n remark Permit all other external internet access\n permit ip 172.20.2.96 0.0.0.15 any\n deny ip any any log\n!\n!\n! End of Security Configuration"
+    }
+  },
+  "explanations": [
+    {
+      "id": "decision-media",
+      "category": "Physical Layer (Layer 1)",
+      "decision": "Selected OS2 Single-Mode Fiber (SMF 9/125 µm)",
+      "inputParameters": {
+        "linkDistanceMeters": 28000,
+        "linkDistanceDisplay": "28.00 km",
+        "environment": "Enterprise Backbone / Channel"
+      },
+      "appliedAlgorithm": "Rule 5.C: Distance > 400m -> OS2 Single-Mode Fiber (9/125 µm core)",
+      "mathematicalCalculation": "Distance 28000m exceeds 400m multimode modal dispersion boundary by 27600m. Single-mode zero-modal dispersion required.",
+      "technicalExplanation": "For link distances above 400m (28.0 km requested), OS2 Single-Mode Fiber (9/125 µm core) eliminates modal dispersion entirely. Core diameter permits only a single fundamental transverse optical mode, enabling high-bandwidth transmission over tens of kilometers. Interface \"10GBASE-ER SFP+ (1550nm Extended Reach Laser)\" was selected to guarantee optical link margin over the required span.",
+      "standardsReference": "IEEE 802.3ae (10GBASE-ER) / ITU-T G.652.D",
+      "alternativesRejected": [
+        {
+          "technology": "OM4 Multimode Fiber",
+          "reason": "Exceeds the 400m modal dispersion limit of OM4 10GBASE-SR by 27600m; severe pulse spreading causes bit error rate (BER) collapse."
+        },
+        {
+          "technology": "Cat6a Copper",
+          "reason": "Exceeds the 100m copper channel limit by 27900m."
+        }
+      ],
+      "assumptions": [
+        "Low water-peak ITU-T G.652.D single-mode fiber infrastructure.",
+        "Optical attenuation calculated at 1310nm (~0.35-0.4 dB/km) or 1550nm (~0.22-0.25 dB/km).",
+        "Receiver optical power monitored via SFP+ Digital Optical Monitoring (DOM / SFF-8472) to prevent receiver saturation."
+      ],
+      "warnings": []
+    },
+    {
+      "id": "decision-transceiver",
+      "category": "Optical & Transceiver Engineering",
+      "decision": "Selected Optical Interface: 10GBASE-ER SFP+ (1550nm Extended Reach Laser)",
+      "inputParameters": {
+        "distanceMeters": 28000,
+        "wavelength": "1550 nm (EML Laser)",
+        "connectorType": "LC Duplex (or SC/APC for Carrier Telco Hand-off)"
+      },
+      "appliedAlgorithm": "Transceiver Reach Selection vs Optical Power Budgeting",
+      "mathematicalCalculation": "Total Power Budget = Min Launch Power (-4.7 dBm) - Max Rx Sensitivity (-15.8 dBm) = 11.1 dB. Channel Insertion Loss = Fiber Loss (28 km x 0.25 dB/km = 7 dB) + Connector Loss (1.5 dB) + Splice Loss (0.5 dB) = 9 dB. Calculated Net Optical Margin = 11.1 dB - 9 dB = 2.1 dB (Pass / Sufficient Margin).",
+      "technicalExplanation": "The transceiver module was selected based on transmitter launch power, photodetector sensitivity, dispersion penalty over distance, and operating wavelength (1550 nm (EML Laser)). Selecting higher-powered optics (such as ZR on a short link) could saturate the optical receiver diode, while insufficient optics would fail bit-error-rate thresholds.",
+      "standardsReference": "IEEE 802.3ae (10GBASE-ER) / ITU-T G.652.D",
+      "alternativesRejected": [
+        {
+          "technology": "Fixed unpluggable interface",
+          "reason": "Lacks modularity; SFP+ allows field replacement and sparing flexibility."
+        }
+      ],
+      "assumptions": [
+        "Digital Optical Monitoring (DOM/SFF-8472) enabled on all optical transceivers.",
+        "Receiver dynamic range is not exceeded; attenuators installed if power exceeds max receiver input."
+      ],
+      "warnings": []
+    },
+    {
+      "id": "decision-vlsm",
+      "category": "Network Layer (Layer 3) Addressing",
+      "decision": "Variable Length Subnet Mask (VLSM) Allocations for 6 Departments",
+      "inputParameters": {
+        "rootCidr": "172.20.0.0/21",
+        "totalRequestedHosts": 457,
+        "departmentsCount": 6
+      },
+      "appliedAlgorithm": "Descending-Order Binary Radix Tree Subnet Allocation (RFC 4632 / CIDR)",
+      "mathematicalCalculation": "Root Network: 172.20.0.0/21 contains 2048 total IP addresses. Allocated: 624 addresses across 6 subnets. Address Space Utilization: 30.5%. Remaining Free Space: 1424 addresses.",
+      "technicalExplanation": "Subnet requests were sorted strictly in descending order of host requirements prior to allocation. This deterministic ordering prevents memory fragmentation and guarantees that every allocated subnet starts on a naturally aligned binary address boundary (where starting address mod 2^(32 - prefix) == 0). Network and broadcast addresses are mathematically preserved, preventing subnet overlap or silent address overflow.",
+      "standardsReference": "RFC 4632 (Classless Inter-domain Routing) & RFC 1918 (Private Address Allocation)",
+      "alternativesRejected": [
+        {
+          "technology": "Classful Subnetting (FLSM / Fixed Length Subnet Masking)",
+          "reason": "Forces uniform mask (e.g. /25 for all departments), causing severe address exhaustion and waste for small departments."
+        },
+        {
+          "technology": "Arbitrary / First-Come Ordering",
+          "reason": "Causes address fragmentation where larger blocks cannot find continuous aligned binary boundaries."
+        }
+      ],
+      "assumptions": [
+        "Standard LAN segments reserve 2 addresses (Network ID and Directed Broadcast).",
+        "The first usable IPv4 address in each subnet is designated as the Default Gateway (SVI)."
+      ],
+      "warnings": []
+    },
+    {
+      "id": "decision-routing",
+      "category": "Dynamic Routing & Convergence",
+      "decision": "Selected Multi-Area OSPF (Hierarchical Link-State)",
+      "inputParameters": {
+        "subnetsCount": 6,
+        "sitesCount": 3,
+        "cloudIntegration": false,
+        "architecture": "Interior Gateway Protocol (IGP) - Area 0 Backbone with Regional Areas"
+      },
+      "appliedAlgorithm": "Dijkstra SPF Shortest-Path First Link-State Routing with Area Hierarchies",
+      "mathematicalCalculation": "SPF Time Complexity: O(E + V log V) where V = 11 nodes, E = 18 links. Database scale remains well within sub-second Dijkstra recomputation limits (<15ms compute overhead).",
+      "technicalExplanation": "With 3 sites and 6 subnets, a hierarchical multi-area OSPF design is mandated. Area 0 (Backbone) interconnects all Area Border Routers (ABRs). Each regional site is assigned a dedicated non-backbone area (e.g. Area 10, Area 20). This confines Type 1 and Type 2 LSA flooding and Dijkstra SPF calculations strictly within the originating area, isolating route churn and preserving router processing resources.",
+      "standardsReference": "RFC 2328: OSPF Version 2",
+      "alternativesRejected": [
+        {
+          "protocol": "Single-Area OSPF Flat Topology",
+          "reason": "A flat Area 0 across multi-site links propagates every link flap globally, causing repeated full SPF tree recalculations across all routers."
+        },
+        {
+          "protocol": "Static Routing with Floating Backup",
+          "reason": "Unmaintainable at this scale; does not automatically adapt to link degradation or dynamic topology changes."
+        }
+      ],
+      "assumptions": [
+        "All OSPF Area 0 routers maintain contiguous backbone adjacencies.",
+        "Point-to-point OSPF network type configured on all routed inter-switch links to bypass DR/BDR election latency."
+      ],
+      "warnings": []
+    },
+    {
+      "id": "decision-switching",
+      "category": "Data Link Layer (Layer 2) & Spanning Tree",
+      "decision": "IEEE 802.1w Rapid Spanning Tree Protocol (Rapid-PVST+) & 802.1Q Tagged Trunks",
+      "inputParameters": {
+        "endpoints": 450,
+        "buildingsCount": 3,
+        "redundancy": "Dual-Homed Core & Distribution"
+      },
+      "appliedAlgorithm": "Rapid Spanning Tree Protocol Proposal-Agreement Handshake (RFC 802.1w)",
+      "mathematicalCalculation": "Convergence time reduced from 30-50 seconds (Legacy 802.1D Spanning Tree) to < 1.0 second (802.1w Rapid-PVST+) via direct edge-port PortFast transitions and point-to-point proposal-agreement handshakes.",
+      "technicalExplanation": "Rapid-PVST+ is configured with explicit bridge priority tuning. Core Switch 01 is configured with Priority 4096 (Root Primary), and Core Switch 02 with Priority 8192 (Root Secondary). Access switches use default 32768. BPDU Guard is enabled on all access edge ports to instantly error-disable ports if rogue switches are attached, preventing accidental root bridge takeover. Native VLAN is changed to an unused quarantine VLAN 999 to mitigate VLAN hopping attacks.",
+      "standardsReference": "IEEE 802.1Q-2018 (VLAN Tagging) & IEEE 802.1w / 802.1D-2004 (RSTP)",
+      "alternativesRejected": [
+        {
+          "technology": "Legacy 802.1D Spanning Tree Protocol (STP)",
+          "reason": "Slow 30 to 50 second convergence timers (Listening and Learning states) disrupt mission-critical traffic and VoIP streams."
+        },
+        {
+          "technology": "Unrestricted Trunking (VLAN 1 default)",
+          "reason": "Leaves trunk open to VLAN hopping and unauthorized broadcast domain leakage; native VLAN 1 presents documented security vulnerabilities."
+        }
+      ],
+      "assumptions": [
+        "Uplink interfaces configured as Point-to-Point full-duplex to enable RSTP rapid transitions.",
+        "BPDU Guard enabled globally on all PortFast access ports."
+      ],
+      "warnings": []
+    },
+    {
+      "id": "decision-qos",
+      "category": "QoS & Low-Latency SLA Engineering",
+      "decision": "Strict Priority Low-Latency Queuing (LLQ) with Sub-5ms Target Analysis",
+      "inputParameters": {
+        "linkDistanceKm": 28,
+        "environment": "Financial Colocation / Trading Link",
+        "targetSla": "Sub-5ms RTT Latency"
+      },
+      "appliedAlgorithm": "Fiber Optical Time of Flight (ToF) & Differentiated Services (DiffServ / RFC 2474)",
+      "mathematicalCalculation": "Light propagation in silica fiber core (refractive index n ≈ 1.468): v = c / n = 299,792 km/s / 1.4682 ≈ 204,190 km/s (4.898 µs/km). One-way fiber flight delay for 28 km = 137.14 µs. Round-Trip Time (RTT) pure fiber propagation = 0.274 ms. Remaining latency budget for switch serialization, queuing, and carrier transport: 4.726 ms.",
+      "technicalExplanation": "Do NOT guarantee sub-5ms latency merely because QoS is enabled! Latency is governed by fundamental physics and carrier transport. While the pure optical propagation delay across 28 km is 0.274 ms, the total end-to-end latency experienced depends on: (1) Carrier route curvature/trench routing factor (typically 1.3x - 1.5x physical distance), (2) DWDM optical transponder regeneration, (3) Buffer queuing delays, and (4) Store-and-forward switch serialization delay. QoS Low-Latency Queuing (LLQ / Expedited Forwarding DSCP 46) eliminates queuing jitter for voice and high-priority financial packets, but cannot reduce the physical optical propagation constant.",
+      "standardsReference": "RFC 2474 (DiffServ Architecture), RFC 3246 (Expedited Forwarding PHB), ITU-T G.8261",
+      "alternativesRejected": [
+        {
+          "technology": "Best-Effort First-In First-Out (FIFO) Queuing",
+          "reason": "Large bulk file transfers induce bufferbloat, increasing latency spikes well above 20-50ms."
+        }
+      ],
+      "assumptions": [
+        "Carrier EVPL path does not exceed 1.4x straight-line fiber trench distance.",
+        "Core interfaces run at 10Gbps line-rate with hardware cut-through or fast store-and-forward switching."
+      ],
+      "warnings": [
+        "Sub-5ms latency SLA requires strict carrier SLA commitments and verification via RFC 2544 / ITU-T Y.1564 BERT testing; QoS configuration alone cannot overcome transmission distance."
+      ]
+    }
+  ],
+  "rawExplanations": {
+    "projectName": "Metro Financial Colocation MAN",
+    "generatedAt": "2026-11-06T08:32:26.010Z",
+    "totalDecisions": 6,
+    "decisions": [
+      {
+        "id": "decision-media",
+        "category": "Physical Layer (Layer 1)",
+        "decision": "Selected OS2 Single-Mode Fiber (SMF 9/125 µm)",
+        "inputParameters": {
+          "linkDistanceMeters": 28000,
+          "linkDistanceDisplay": "28.00 km",
+          "environment": "Enterprise Backbone / Channel"
+        },
+        "appliedAlgorithm": "Rule 5.C: Distance > 400m -> OS2 Single-Mode Fiber (9/125 µm core)",
+        "mathematicalCalculation": "Distance 28000m exceeds 400m multimode modal dispersion boundary by 27600m. Single-mode zero-modal dispersion required.",
+        "technicalExplanation": "For link distances above 400m (28.0 km requested), OS2 Single-Mode Fiber (9/125 µm core) eliminates modal dispersion entirely. Core diameter permits only a single fundamental transverse optical mode, enabling high-bandwidth transmission over tens of kilometers. Interface \"10GBASE-ER SFP+ (1550nm Extended Reach Laser)\" was selected to guarantee optical link margin over the required span.",
+        "standardsReference": "IEEE 802.3ae (10GBASE-ER) / ITU-T G.652.D",
+        "alternativesRejected": [
+          {
+            "technology": "OM4 Multimode Fiber",
+            "reason": "Exceeds the 400m modal dispersion limit of OM4 10GBASE-SR by 27600m; severe pulse spreading causes bit error rate (BER) collapse."
+          },
+          {
+            "technology": "Cat6a Copper",
+            "reason": "Exceeds the 100m copper channel limit by 27900m."
+          }
+        ],
+        "assumptions": [
+          "Low water-peak ITU-T G.652.D single-mode fiber infrastructure.",
+          "Optical attenuation calculated at 1310nm (~0.35-0.4 dB/km) or 1550nm (~0.22-0.25 dB/km).",
+          "Receiver optical power monitored via SFP+ Digital Optical Monitoring (DOM / SFF-8472) to prevent receiver saturation."
+        ],
+        "warnings": []
+      },
+      {
+        "id": "decision-transceiver",
+        "category": "Optical & Transceiver Engineering",
+        "decision": "Selected Optical Interface: 10GBASE-ER SFP+ (1550nm Extended Reach Laser)",
+        "inputParameters": {
+          "distanceMeters": 28000,
+          "wavelength": "1550 nm (EML Laser)",
+          "connectorType": "LC Duplex (or SC/APC for Carrier Telco Hand-off)"
+        },
+        "appliedAlgorithm": "Transceiver Reach Selection vs Optical Power Budgeting",
+        "mathematicalCalculation": "Total Power Budget = Min Launch Power (-4.7 dBm) - Max Rx Sensitivity (-15.8 dBm) = 11.1 dB. Channel Insertion Loss = Fiber Loss (28 km x 0.25 dB/km = 7 dB) + Connector Loss (1.5 dB) + Splice Loss (0.5 dB) = 9 dB. Calculated Net Optical Margin = 11.1 dB - 9 dB = 2.1 dB (Pass / Sufficient Margin).",
+        "technicalExplanation": "The transceiver module was selected based on transmitter launch power, photodetector sensitivity, dispersion penalty over distance, and operating wavelength (1550 nm (EML Laser)). Selecting higher-powered optics (such as ZR on a short link) could saturate the optical receiver diode, while insufficient optics would fail bit-error-rate thresholds.",
+        "standardsReference": "IEEE 802.3ae (10GBASE-ER) / ITU-T G.652.D",
+        "alternativesRejected": [
+          {
+            "technology": "Fixed unpluggable interface",
+            "reason": "Lacks modularity; SFP+ allows field replacement and sparing flexibility."
+          }
+        ],
+        "assumptions": [
+          "Digital Optical Monitoring (DOM/SFF-8472) enabled on all optical transceivers.",
+          "Receiver dynamic range is not exceeded; attenuators installed if power exceeds max receiver input."
+        ],
+        "warnings": []
+      },
+      {
+        "id": "decision-vlsm",
+        "category": "Network Layer (Layer 3) Addressing",
+        "decision": "Variable Length Subnet Mask (VLSM) Allocations for 6 Departments",
+        "inputParameters": {
+          "rootCidr": "172.20.0.0/21",
+          "totalRequestedHosts": 457,
+          "departmentsCount": 6
+        },
+        "appliedAlgorithm": "Descending-Order Binary Radix Tree Subnet Allocation (RFC 4632 / CIDR)",
+        "mathematicalCalculation": "Root Network: 172.20.0.0/21 contains 2048 total IP addresses. Allocated: 624 addresses across 6 subnets. Address Space Utilization: 30.5%. Remaining Free Space: 1424 addresses.",
+        "technicalExplanation": "Subnet requests were sorted strictly in descending order of host requirements prior to allocation. This deterministic ordering prevents memory fragmentation and guarantees that every allocated subnet starts on a naturally aligned binary address boundary (where starting address mod 2^(32 - prefix) == 0). Network and broadcast addresses are mathematically preserved, preventing subnet overlap or silent address overflow.",
+        "standardsReference": "RFC 4632 (Classless Inter-domain Routing) & RFC 1918 (Private Address Allocation)",
+        "alternativesRejected": [
+          {
+            "technology": "Classful Subnetting (FLSM / Fixed Length Subnet Masking)",
+            "reason": "Forces uniform mask (e.g. /25 for all departments), causing severe address exhaustion and waste for small departments."
+          },
+          {
+            "technology": "Arbitrary / First-Come Ordering",
+            "reason": "Causes address fragmentation where larger blocks cannot find continuous aligned binary boundaries."
+          }
+        ],
+        "assumptions": [
+          "Standard LAN segments reserve 2 addresses (Network ID and Directed Broadcast).",
+          "The first usable IPv4 address in each subnet is designated as the Default Gateway (SVI)."
+        ],
+        "warnings": []
+      },
+      {
+        "id": "decision-routing",
+        "category": "Dynamic Routing & Convergence",
+        "decision": "Selected Multi-Area OSPF (Hierarchical Link-State)",
+        "inputParameters": {
+          "subnetsCount": 6,
+          "sitesCount": 3,
+          "cloudIntegration": false,
+          "architecture": "Interior Gateway Protocol (IGP) - Area 0 Backbone with Regional Areas"
+        },
+        "appliedAlgorithm": "Dijkstra SPF Shortest-Path First Link-State Routing with Area Hierarchies",
+        "mathematicalCalculation": "SPF Time Complexity: O(E + V log V) where V = 11 nodes, E = 18 links. Database scale remains well within sub-second Dijkstra recomputation limits (<15ms compute overhead).",
+        "technicalExplanation": "With 3 sites and 6 subnets, a hierarchical multi-area OSPF design is mandated. Area 0 (Backbone) interconnects all Area Border Routers (ABRs). Each regional site is assigned a dedicated non-backbone area (e.g. Area 10, Area 20). This confines Type 1 and Type 2 LSA flooding and Dijkstra SPF calculations strictly within the originating area, isolating route churn and preserving router processing resources.",
+        "standardsReference": "RFC 2328: OSPF Version 2",
+        "alternativesRejected": [
+          {
+            "protocol": "Single-Area OSPF Flat Topology",
+            "reason": "A flat Area 0 across multi-site links propagates every link flap globally, causing repeated full SPF tree recalculations across all routers."
+          },
+          {
+            "protocol": "Static Routing with Floating Backup",
+            "reason": "Unmaintainable at this scale; does not automatically adapt to link degradation or dynamic topology changes."
+          }
+        ],
+        "assumptions": [
+          "All OSPF Area 0 routers maintain contiguous backbone adjacencies.",
+          "Point-to-point OSPF network type configured on all routed inter-switch links to bypass DR/BDR election latency."
+        ],
+        "warnings": []
+      },
+      {
+        "id": "decision-switching",
+        "category": "Data Link Layer (Layer 2) & Spanning Tree",
+        "decision": "IEEE 802.1w Rapid Spanning Tree Protocol (Rapid-PVST+) & 802.1Q Tagged Trunks",
+        "inputParameters": {
+          "endpoints": 450,
+          "buildingsCount": 3,
+          "redundancy": "Dual-Homed Core & Distribution"
+        },
+        "appliedAlgorithm": "Rapid Spanning Tree Protocol Proposal-Agreement Handshake (RFC 802.1w)",
+        "mathematicalCalculation": "Convergence time reduced from 30-50 seconds (Legacy 802.1D Spanning Tree) to < 1.0 second (802.1w Rapid-PVST+) via direct edge-port PortFast transitions and point-to-point proposal-agreement handshakes.",
+        "technicalExplanation": "Rapid-PVST+ is configured with explicit bridge priority tuning. Core Switch 01 is configured with Priority 4096 (Root Primary), and Core Switch 02 with Priority 8192 (Root Secondary). Access switches use default 32768. BPDU Guard is enabled on all access edge ports to instantly error-disable ports if rogue switches are attached, preventing accidental root bridge takeover. Native VLAN is changed to an unused quarantine VLAN 999 to mitigate VLAN hopping attacks.",
+        "standardsReference": "IEEE 802.1Q-2018 (VLAN Tagging) & IEEE 802.1w / 802.1D-2004 (RSTP)",
+        "alternativesRejected": [
+          {
+            "technology": "Legacy 802.1D Spanning Tree Protocol (STP)",
+            "reason": "Slow 30 to 50 second convergence timers (Listening and Learning states) disrupt mission-critical traffic and VoIP streams."
+          },
+          {
+            "technology": "Unrestricted Trunking (VLAN 1 default)",
+            "reason": "Leaves trunk open to VLAN hopping and unauthorized broadcast domain leakage; native VLAN 1 presents documented security vulnerabilities."
+          }
+        ],
+        "assumptions": [
+          "Uplink interfaces configured as Point-to-Point full-duplex to enable RSTP rapid transitions.",
+          "BPDU Guard enabled globally on all PortFast access ports."
+        ],
+        "warnings": []
+      },
+      {
+        "id": "decision-qos",
+        "category": "QoS & Low-Latency SLA Engineering",
+        "decision": "Strict Priority Low-Latency Queuing (LLQ) with Sub-5ms Target Analysis",
+        "inputParameters": {
+          "linkDistanceKm": 28,
+          "environment": "Financial Colocation / Trading Link",
+          "targetSla": "Sub-5ms RTT Latency"
+        },
+        "appliedAlgorithm": "Fiber Optical Time of Flight (ToF) & Differentiated Services (DiffServ / RFC 2474)",
+        "mathematicalCalculation": "Light propagation in silica fiber core (refractive index n ≈ 1.468): v = c / n = 299,792 km/s / 1.4682 ≈ 204,190 km/s (4.898 µs/km). One-way fiber flight delay for 28 km = 137.14 µs. Round-Trip Time (RTT) pure fiber propagation = 0.274 ms. Remaining latency budget for switch serialization, queuing, and carrier transport: 4.726 ms.",
+        "technicalExplanation": "Do NOT guarantee sub-5ms latency merely because QoS is enabled! Latency is governed by fundamental physics and carrier transport. While the pure optical propagation delay across 28 km is 0.274 ms, the total end-to-end latency experienced depends on: (1) Carrier route curvature/trench routing factor (typically 1.3x - 1.5x physical distance), (2) DWDM optical transponder regeneration, (3) Buffer queuing delays, and (4) Store-and-forward switch serialization delay. QoS Low-Latency Queuing (LLQ / Expedited Forwarding DSCP 46) eliminates queuing jitter for voice and high-priority financial packets, but cannot reduce the physical optical propagation constant.",
+        "standardsReference": "RFC 2474 (DiffServ Architecture), RFC 3246 (Expedited Forwarding PHB), ITU-T G.8261",
+        "alternativesRejected": [
+          {
+            "technology": "Best-Effort First-In First-Out (FIFO) Queuing",
+            "reason": "Large bulk file transfers induce bufferbloat, increasing latency spikes well above 20-50ms."
+          }
+        ],
+        "assumptions": [
+          "Carrier EVPL path does not exceed 1.4x straight-line fiber trench distance.",
+          "Core interfaces run at 10Gbps line-rate with hardware cut-through or fast store-and-forward switching."
+        ],
+        "warnings": [
+          "Sub-5ms latency SLA requires strict carrier SLA commitments and verification via RFC 2544 / ITU-T Y.1564 BERT testing; QoS configuration alone cannot overcome transmission distance."
+        ]
+      }
+    ]
+  },
+  "timestamp": "2026-11-06T08:32:26.010Z"
+}

@@ -1,0 +1,976 @@
+{
+  "scenario": {
+    "id": "global-wan",
+    "name": "Global Multi-Cloud WAN & IoT",
+    "networkType": "Global WAN",
+    "description": "Intercontinental enterprise WAN connecting 4 global city hubs, Cloud VPC integration, and 2,000 IoT devices/scanners using IPsec VPN, eBGP, and multi-area OSPF.",
+    "buildingsCount": 6,
+    "sitesCount": 4,
+    "endpoints": 2000,
+    "distanceMeters": 6200000,
+    "requestedBandwidth": "10 Gbps",
+    "redundancy": "High",
+    "poeRequired": true,
+    "cloudIntegration": true,
+    "qosEnabled": true,
+    "rootCidr": "10.100.0.0/19",
+    "departments": [
+      {
+        "name": "Americas Hub & Automated Scanners",
+        "hosts": 800,
+        "vlanId": 10,
+        "description": "Warehouse barcode scanners and handling automation"
+      },
+      {
+        "name": "EMEA Logistics Operations",
+        "hosts": 500,
+        "vlanId": 20,
+        "description": "Regional distribution center and ERP endpoints"
+      },
+      {
+        "name": "APAC Automated Sorting Depot",
+        "hosts": 400,
+        "vlanId": 30,
+        "description": "Robotics control systems and packaging terminals"
+      },
+      {
+        "name": "Global IoT Telemetry Sensors",
+        "hosts": 250,
+        "vlanId": 40,
+        "description": "Asset tracking sensors and climate monitors"
+      },
+      {
+        "name": "Cloud VPC Hybrid Services",
+        "hosts": 100,
+        "vlanId": 50,
+        "description": "Direct Connect hybrid microservices and data pipelines"
+      },
+      {
+        "name": "Global WAN Infrastructure Management",
+        "hosts": 30,
+        "vlanId": 99,
+        "description": "BGP edge routers, SD-WAN controllers, IPsec gateways"
+      }
+    ]
+  },
+  "validationWarnings": [],
+  "media": {
+    "distanceMeters": 6200000,
+    "distanceDisplay": "6200.00 km",
+    "mediaType": "OS2 Single-Mode Fiber (SMF 9/125 µm)",
+    "transceiver": "10GBASE-ZR SFP+ (1550nm Cooled EML / APD Receiver)",
+    "standard": "Industry Standard SFF-8431 / Multi-Source Agreement (MSA)",
+    "threshold": "Above 400m (Campus Inter-Building & Long-Haul MAN/WAN)",
+    "wavelength": "1550 nm (Cooled Narrow-Linewidth Laser)",
+    "connector": "LC Duplex (or SC/APC for Carrier Telco Hand-off)",
+    "technicalReason": "For link distances above 400m (6200.0 km requested), OS2 Single-Mode Fiber (9/125 µm core) eliminates modal dispersion entirely. Core diameter permits only a single fundamental transverse optical mode, enabling high-bandwidth transmission over tens of kilometers. Interface \"10GBASE-ZR SFP+ (1550nm Cooled EML / APD Receiver)\" was selected to guarantee optical link margin over the required span.",
+    "opticalBudget": {
+      "distanceKm": 6200,
+      "txPowerMinDbm": 0,
+      "rxSensitivityDbm": -24,
+      "totalBudgetDb": 24,
+      "totalPowerBudgetDb": 24,
+      "fiberAttenuationDbPerKm": 0.22,
+      "fiberLossDb": 1364,
+      "connectorLossDb": 2,
+      "spliceLossDb": 1,
+      "totalChannelLossDb": 1367,
+      "calculatedMarginDb": -1343,
+      "isFeasible": false
+    },
+    "assumptions": [
+      "Low water-peak ITU-T G.652.D single-mode fiber infrastructure.",
+      "Optical attenuation calculated at 1310nm (~0.35-0.4 dB/km) or 1550nm (~0.22-0.25 dB/km).",
+      "Receiver optical power monitored via SFP+ Digital Optical Monitoring (DOM / SFF-8472) to prevent receiver saturation."
+    ],
+    "limitations": [
+      "Single-mode laser transceivers generate higher thermal dissipation and carry a higher cost per optic than multimode optics.",
+      "Slightly higher installation precision and clean-splice verification required."
+    ],
+    "alternativesRejected": [
+      {
+        "technology": "OM4 Multimode Fiber",
+        "reason": "Exceeds the 400m modal dispersion limit of OM4 10GBASE-SR by 6199600m; severe pulse spreading causes bit error rate (BER) collapse."
+      },
+      {
+        "technology": "Cat6a Copper",
+        "reason": "Exceeds the 100m copper channel limit by 6199900m."
+      }
+    ]
+  },
+  "vlsm": {
+    "rootNetwork": "10.100.0.0/19",
+    "rootNetworkIp": "10.100.0.0",
+    "rootBroadcastIp": "10.100.31.255",
+    "rootTotalAddresses": 8192,
+    "allocatedSubnets": [
+      {
+        "name": "Americas Hub & Automated Scanners",
+        "vlanId": 10,
+        "requestedHosts": 800,
+        "prefix": 22,
+        "cidr": "10.100.0.0/22",
+        "networkAddress": "10.100.0.0",
+        "subnetMask": "255.255.252.0",
+        "wildcardMask": "0.0.3.255",
+        "firstUsable": "10.100.0.1",
+        "lastUsable": "10.100.3.254",
+        "broadcastAddress": "10.100.3.255",
+        "defaultGateway": "10.100.0.1",
+        "totalAddresses": 1024,
+        "usableHosts": 1022,
+        "utilizationPercent": 78.3,
+        "mathSteps": [
+          "Requested hosts: 800",
+          "Formula: 2^H - 2 >= 800 (where H = host bits)",
+          "Calculated host bits H = 10, prefix = 32 - 10 = /22",
+          "Total block size: 2^10 = 1024 IP addresses",
+          "Subnet boundary: Aligned on block boundary 10.100.0.0",
+          "Subnet mask: 255.255.252.0 (Wildcard: 0.0.3.255)",
+          "Usable range: 10.100.0.1 to 10.100.3.254 (1022 usable)",
+          "Default Gateway (First usable): 10.100.0.1"
+        ]
+      },
+      {
+        "name": "EMEA Logistics Operations",
+        "vlanId": 20,
+        "requestedHosts": 500,
+        "prefix": 23,
+        "cidr": "10.100.4.0/23",
+        "networkAddress": "10.100.4.0",
+        "subnetMask": "255.255.254.0",
+        "wildcardMask": "0.0.1.255",
+        "firstUsable": "10.100.4.1",
+        "lastUsable": "10.100.5.254",
+        "broadcastAddress": "10.100.5.255",
+        "defaultGateway": "10.100.4.1",
+        "totalAddresses": 512,
+        "usableHosts": 510,
+        "utilizationPercent": 98,
+        "mathSteps": [
+          "Requested hosts: 500",
+          "Formula: 2^H - 2 >= 500 (where H = host bits)",
+          "Calculated host bits H = 9, prefix = 32 - 9 = /23",
+          "Total block size: 2^9 = 512 IP addresses",
+          "Subnet boundary: Aligned on block boundary 10.100.4.0",
+          "Subnet mask: 255.255.254.0 (Wildcard: 0.0.1.255)",
+          "Usable range: 10.100.4.1 to 10.100.5.254 (510 usable)",
+          "Default Gateway (First usable): 10.100.4.1"
+        ]
+      },
+      {
+        "name": "APAC Automated Sorting Depot",
+        "vlanId": 30,
+        "requestedHosts": 400,
+        "prefix": 23,
+        "cidr": "10.100.6.0/23",
+        "networkAddress": "10.100.6.0",
+        "subnetMask": "255.255.254.0",
+        "wildcardMask": "0.0.1.255",
+        "firstUsable": "10.100.6.1",
+        "lastUsable": "10.100.7.254",
+        "broadcastAddress": "10.100.7.255",
+        "defaultGateway": "10.100.6.1",
+        "totalAddresses": 512,
+        "usableHosts": 510,
+        "utilizationPercent": 78.4,
+        "mathSteps": [
+          "Requested hosts: 400",
+          "Formula: 2^H - 2 >= 400 (where H = host bits)",
+          "Calculated host bits H = 9, prefix = 32 - 9 = /23",
+          "Total block size: 2^9 = 512 IP addresses",
+          "Subnet boundary: Aligned on block boundary 10.100.6.0",
+          "Subnet mask: 255.255.254.0 (Wildcard: 0.0.1.255)",
+          "Usable range: 10.100.6.1 to 10.100.7.254 (510 usable)",
+          "Default Gateway (First usable): 10.100.6.1"
+        ]
+      },
+      {
+        "name": "Global IoT Telemetry Sensors",
+        "vlanId": 40,
+        "requestedHosts": 250,
+        "prefix": 24,
+        "cidr": "10.100.8.0/24",
+        "networkAddress": "10.100.8.0",
+        "subnetMask": "255.255.255.0",
+        "wildcardMask": "0.0.0.255",
+        "firstUsable": "10.100.8.1",
+        "lastUsable": "10.100.8.254",
+        "broadcastAddress": "10.100.8.255",
+        "defaultGateway": "10.100.8.1",
+        "totalAddresses": 256,
+        "usableHosts": 254,
+        "utilizationPercent": 98.4,
+        "mathSteps": [
+          "Requested hosts: 250",
+          "Formula: 2^H - 2 >= 250 (where H = host bits)",
+          "Calculated host bits H = 8, prefix = 32 - 8 = /24",
+          "Total block size: 2^8 = 256 IP addresses",
+          "Subnet boundary: Aligned on block boundary 10.100.8.0",
+          "Subnet mask: 255.255.255.0 (Wildcard: 0.0.0.255)",
+          "Usable range: 10.100.8.1 to 10.100.8.254 (254 usable)",
+          "Default Gateway (First usable): 10.100.8.1"
+        ]
+      },
+      {
+        "name": "Cloud VPC Hybrid Services",
+        "vlanId": 50,
+        "requestedHosts": 100,
+        "prefix": 25,
+        "cidr": "10.100.9.0/25",
+        "networkAddress": "10.100.9.0",
+        "subnetMask": "255.255.255.128",
+        "wildcardMask": "0.0.0.127",
+        "firstUsable": "10.100.9.1",
+        "lastUsable": "10.100.9.126",
+        "broadcastAddress": "10.100.9.127",
+        "defaultGateway": "10.100.9.1",
+        "totalAddresses": 128,
+        "usableHosts": 126,
+        "utilizationPercent": 79.4,
+        "mathSteps": [
+          "Requested hosts: 100",
+          "Formula: 2^H - 2 >= 100 (where H = host bits)",
+          "Calculated host bits H = 7, prefix = 32 - 7 = /25",
+          "Total block size: 2^7 = 128 IP addresses",
+          "Subnet boundary: Aligned on block boundary 10.100.9.0",
+          "Subnet mask: 255.255.255.128 (Wildcard: 0.0.0.127)",
+          "Usable range: 10.100.9.1 to 10.100.9.126 (126 usable)",
+          "Default Gateway (First usable): 10.100.9.1"
+        ]
+      },
+      {
+        "name": "Global WAN Infrastructure Management",
+        "vlanId": 99,
+        "requestedHosts": 30,
+        "prefix": 27,
+        "cidr": "10.100.9.128/27",
+        "networkAddress": "10.100.9.128",
+        "subnetMask": "255.255.255.224",
+        "wildcardMask": "0.0.0.31",
+        "firstUsable": "10.100.9.129",
+        "lastUsable": "10.100.9.158",
+        "broadcastAddress": "10.100.9.159",
+        "defaultGateway": "10.100.9.129",
+        "totalAddresses": 32,
+        "usableHosts": 30,
+        "utilizationPercent": 100,
+        "mathSteps": [
+          "Requested hosts: 30",
+          "Formula: 2^H - 2 >= 30 (where H = host bits)",
+          "Calculated host bits H = 5, prefix = 32 - 5 = /27",
+          "Total block size: 2^5 = 32 IP addresses",
+          "Subnet boundary: Aligned on block boundary 10.100.9.128",
+          "Subnet mask: 255.255.255.224 (Wildcard: 0.0.0.31)",
+          "Usable range: 10.100.9.129 to 10.100.9.158 (30 usable)",
+          "Default Gateway (First usable): 10.100.9.129"
+        ]
+      }
+    ],
+    "summary": {
+      "totalRequestedHosts": 2080,
+      "totalAllocatedAddresses": 2464,
+      "remainingAddresses": 5728,
+      "overallUtilizationPercent": 30.1,
+      "subnetsCount": 6,
+      "nextAvailableNetwork": "10.100.9.160"
+    }
+  },
+  "routing": {
+    "protocol": "Hybrid Routing: Multi-Area OSPF (IGP) + External BGP (eBGP / IPsec WAN)",
+    "architecture": "Dual-Tier: Internal Link-State IGP (OSPF) + Inter-Domain Path-Vector (BGP-4 / RFC 4271)",
+    "rfcReferences": [
+      "RFC 4271: A Border Gateway Protocol 4 (BGP-4)",
+      "RFC 2328: OSPF Version 2",
+      "RFC 4364: BGP/MPLS IP Virtual Private Networks (VPNs)",
+      "RFC 4301: Security Architecture for the Internet Protocol (IPsec)"
+    ],
+    "technicalExplanation": "For multi-site global WAN infrastructure with 4 sites and Cloud VPC integration, a hybrid routing architecture is required. Internal site networks utilize Multi-Area OSPF for fast IGP convergence. Edge routers and Cloud Virtual Private Gateways run eBGP (AS 65001 to Cloud AS 64512), enabling policy-based path control, AS_PATH loop prevention, multi-exit discriminators (MED), and controlled route redistribution at ASBR boundaries.",
+    "convergenceNotes": "OSPF handles millisecond internal rerouting; BGP with BFD (Bidirectional Forwarding Detection) provides 300ms failover across redundant WAN circuits and cloud tunnels.",
+    "summarizationPlan": "Autonomous System Boundary Routers (ASBRs) announce only aggregated supernet CIDR blocks to cloud peers and service providers, strictly filtering internal RFC 1918 departmental subnets from leaking onto untrusted transit links.",
+    "areaDesign": [
+      {
+        "area": "Area 0 (Backbone)",
+        "role": "Enterprise Core & WAN Edge",
+        "description": "Transits internal traffic between sites and data centers."
+      },
+      {
+        "area": "eBGP Peering",
+        "role": "Cloud VPC & Carrier EVPL Border",
+        "description": "Autonomous System peering with AWS Direct Connect / Azure ExpressRoute and Cloud VPC."
+      }
+    ],
+    "alternativesRejected": [
+      {
+        "protocol": "Pure OSPF over Global Internet/Cloud",
+        "reason": "OSPF cannot cross independent administrative boundaries, cannot enforce multi-hop AS path policy filters, and exposes internal link states to third-party cloud providers."
+      },
+      {
+        "protocol": "Pure BGP for all internal desktop subnets",
+        "reason": "BGP lacks rapid link-state discovery and topology awareness necessary for high-density local campus switching and fast convergence."
+      }
+    ],
+    "parametersAnalyzed": {
+      "subnetsCount": 6,
+      "sitesCount": 4,
+      "networkType": "Global WAN",
+      "cloudIntegration": true,
+      "externalAsRequired": true
+    }
+  },
+  "topology": {
+    "topologyTier": "Multi-Site SD-WAN / Mesh IPsec & Cloud Interconnect",
+    "architectureName": "Hub-and-Spoke with Multi-Cloud Direct Interconnect & Redundant Core",
+    "description": "Enterprise WAN routers at each regional hub meshed via IPsec VPN tunnels, terminating on Cloud VPC Virtual Private Gateways.",
+    "deviceEstimates": {
+      "edgeRouters": 8,
+      "coreSwitches": 8,
+      "accessSwitches": 50,
+      "cloudGateways": 2,
+      "ipsecTunnels": 10
+    },
+    "switchingStandards": [
+      "IEEE 802.1Q (VLAN Tagging)",
+      "IEEE 802.1w (Rapid Spanning Tree Protocol - RSTP)",
+      "IEEE 802.3ad (LACP Link Aggregation)",
+      "ITU-T G.8032 (Ethernet Ring Protection Switching for MANs)"
+    ],
+    "technicalJustification": "With 4 international city sites and 2000 endpoints including IoT fleets, a multi-tier WAN edge architecture is required. Edge routers terminate dual Internet/MPLS uplinks, perform IPsec encryption and route redistribution between OSPF and eBGP into cloud VPCs.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "cloud-vpc",
+          "type": "default",
+          "data": {
+            "label": "Cloud Infrastructure\nAWS / Azure VPC\neBGP AS 64512",
+            "deviceType": "cloud"
+          },
+          "position": {
+            "x": 380,
+            "y": 30
+          },
+          "style": {
+            "background": "#141414",
+            "color": "#EDEDED",
+            "border": "1px solid #444444",
+            "borderRadius": "4px",
+            "padding": "10px",
+            "textAlign": "center",
+            "fontSize": "11px",
+            "fontFamily": "JetBrains Mono, monospace",
+            "width": 210
+          }
+        },
+        {
+          "id": "wan-hub",
+          "type": "default",
+          "data": {
+            "label": "Global WAN Edge Hub\nCatalyst 8500 Edge\nOSPF Area 0 / eBGP",
+            "deviceType": "wan-edge"
+          },
+          "position": {
+            "x": 380,
+            "y": 180
+          },
+          "style": {
+            "background": "#141414",
+            "color": "#EDEDED",
+            "border": "1px solid #2B2B2B",
+            "borderRadius": "4px",
+            "padding": "10px",
+            "textAlign": "center",
+            "fontSize": "11px",
+            "fontFamily": "JetBrains Mono, monospace",
+            "width": 220
+          }
+        },
+        {
+          "id": "city-1",
+          "type": "default",
+          "data": {
+            "label": "City 1 (Americas)\nEdge SD-WAN Router\nArea 10",
+            "deviceType": "city-site"
+          },
+          "position": {
+            "x": 80,
+            "y": 340
+          },
+          "style": {
+            "background": "#141414",
+            "color": "#EDEDED",
+            "border": "1px solid #2B2B2B",
+            "borderRadius": "4px",
+            "padding": "10px",
+            "textAlign": "center",
+            "fontSize": "11px",
+            "fontFamily": "JetBrains Mono, monospace",
+            "width": 190
+          }
+        },
+        {
+          "id": "city-2",
+          "type": "default",
+          "data": {
+            "label": "City 2 (EMEA)\nEdge SD-WAN Router\nArea 20",
+            "deviceType": "city-site"
+          },
+          "position": {
+            "x": 320,
+            "y": 340
+          },
+          "style": {
+            "background": "#141414",
+            "color": "#EDEDED",
+            "border": "1px solid #2B2B2B",
+            "borderRadius": "4px",
+            "padding": "10px",
+            "textAlign": "center",
+            "fontSize": "11px",
+            "fontFamily": "JetBrains Mono, monospace",
+            "width": 190
+          }
+        },
+        {
+          "id": "city-3",
+          "type": "default",
+          "data": {
+            "label": "City 3 (APAC)\nEdge SD-WAN Router\nArea 30",
+            "deviceType": "city-site"
+          },
+          "position": {
+            "x": 560,
+            "y": 340
+          },
+          "style": {
+            "background": "#141414",
+            "color": "#EDEDED",
+            "border": "1px solid #2B2B2B",
+            "borderRadius": "4px",
+            "padding": "10px",
+            "textAlign": "center",
+            "fontSize": "11px",
+            "fontFamily": "JetBrains Mono, monospace",
+            "width": 190
+          }
+        },
+        {
+          "id": "city-4",
+          "type": "default",
+          "data": {
+            "label": "City 4 (IoT Depot)\nEdge SD-WAN Router\nArea 40",
+            "deviceType": "city-site"
+          },
+          "position": {
+            "x": 800,
+            "y": 340
+          },
+          "style": {
+            "background": "#141414",
+            "color": "#EDEDED",
+            "border": "1px solid #2B2B2B",
+            "borderRadius": "4px",
+            "padding": "10px",
+            "textAlign": "center",
+            "fontSize": "11px",
+            "fontFamily": "JetBrains Mono, monospace",
+            "width": 190
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "e-cloud-wan",
+          "source": "cloud-vpc",
+          "target": "wan-hub",
+          "label": "Direct Connect / IPsec",
+          "style": {
+            "stroke": "#666666",
+            "strokeWidth": 1.5
+          }
+        },
+        {
+          "id": "e-wan-city-1",
+          "source": "wan-hub",
+          "target": "city-1",
+          "label": "IPsec VPN",
+          "style": {
+            "stroke": "#666666",
+            "strokeWidth": 1.5
+          }
+        },
+        {
+          "id": "e-wan-city-2",
+          "source": "wan-hub",
+          "target": "city-2",
+          "label": "IPsec VPN",
+          "style": {
+            "stroke": "#666666",
+            "strokeWidth": 1.5
+          }
+        },
+        {
+          "id": "e-wan-city-3",
+          "source": "wan-hub",
+          "target": "city-3",
+          "label": "IPsec VPN",
+          "style": {
+            "stroke": "#666666",
+            "strokeWidth": 1.5
+          }
+        },
+        {
+          "id": "e-wan-city-4",
+          "source": "wan-hub",
+          "target": "city-4",
+          "label": "IPsec VPN",
+          "style": {
+            "stroke": "#666666",
+            "strokeWidth": 1.5
+          }
+        }
+      ]
+    }
+  },
+  "configurations": {
+    "coreSwitch": {
+      "filename": "global-multi-cloud-wan-iot-CORE-SW01.cfg",
+      "title": "Core/Distribution Switch Configuration",
+      "targetDevice": "Cisco Catalyst 9500 / 9300 (IOS-XE 17.x)",
+      "content": "! =====================================================================\n! NetArchitect Generated Configuration\n! Device: Core / Distribution Layer Switch 01\n! Hostname: GLOBAL-MULTI-CLOUD-WAN-&-IOT-CORE-SW01\n! Platform Assumption: Cisco Catalyst 9500 / 9300 (IOS-XE 17.9+)\n! =====================================================================\nversion 17.9\nservice timestamps debug datetime msec\nservice timestamps log datetime msec\nservice password-encryption\n!\nhostname GLOBAL-MULTI-CLOUD-WAN-&-IOT-CORE-SW01\n!\nboot-start-marker\nboot-end-marker\n!\n! Management & Security Baselines\nenable secret 9 $9$PlaceholderCoreSecret$NetArchitect\n!\naaa new-model\naaa authentication login default local\naaa authorization exec default local\nusername netadmin privilege 15 secret 9 $9$AdminSecret$2026Net\n!\nip routing\nip domain name netarchitect.internal\nip ssh version 2\nip ssh time-out 60\nip ssh authentication-retries 3\n!\n! Spanning Tree Protocol (IEEE 802.1w Rapid-PVST+)\n! Root Bridge Primary Configuration\nspanning-tree mode rapid-pvst\nspanning-tree extend system-id\nspanning-tree vlan 1-4094 priority 4096\n!\n! VLAN Database Definitions\nvlan 999\n name QUARANTINE_NATIVE\n!\nvlan 10\n name Americas_Hub_&_Automated_Scanners\n!\nvlan 20\n name EMEA_Logistics_Operations\n!\nvlan 30\n name APAC_Automated_Sorting_Depot\n!\nvlan 40\n name Global_IoT_Telemetry_Sensors\n!\nvlan 50\n name Cloud_VPC_Hybrid_Services\n!\nvlan 99\n name Global_WAN_Infrastructure_Management\n!\n! 802.1Q Core Downlink Trunks to Access Layer\n! Platform note: Modern Cisco Catalyst 9000 switches use IEEE 802.1Q exclusively.\n! Obsolete 'switchport trunk encapsulation dot1q' command is rejected on Cat 9000 and therefore omitted.\ninterface range TenGigabitEthernet1/0/1 - 4\n description 10G OM4/OS2 SFP+ 802.1Q Downlink Trunks to Access Switches\n switchport mode trunk\n switchport trunk native vlan 999\n switchport trunk allowed vlan 10,20,30,40,50,99\n switchport nonegotiate\n spanning-tree guard root\n no shutdown\n!\n! Port-Channel Inter-Switch Link (LACP - Core Redundancy)\ninterface Port-channel1\n description LACP Inter-Chassis Core Cross-Connect\n switchport mode trunk\n switchport trunk native vlan 999\n switchport trunk allowed vlan 10,20,30,40,50,99\n no shutdown\n!\ninterface range TenGigabitEthernet1/0/47 - 48\n description LACP Core Member Bundle\n channel-group 1 mode active\n!\n! Switched Virtual Interfaces (SVIs) - Default Gateways\ninterface Vlan10\n description SVI Gateway for Americas Hub & Automated Scanners [VLAN 10]\n ip address 10.100.0.1 255.255.252.0\n no shutdown\n!\ninterface Vlan20\n description SVI Gateway for EMEA Logistics Operations [VLAN 20]\n ip address 10.100.4.1 255.255.254.0\n no shutdown\n!\ninterface Vlan30\n description SVI Gateway for APAC Automated Sorting Depot [VLAN 30]\n ip address 10.100.6.1 255.255.254.0\n no shutdown\n!\ninterface Vlan40\n description SVI Gateway for Global IoT Telemetry Sensors [VLAN 40]\n ip address 10.100.8.1 255.255.255.0\n no shutdown\n!\ninterface Vlan50\n description SVI Gateway for Cloud VPC Hybrid Services [VLAN 50]\n ip address 10.100.9.1 255.255.255.128\n no shutdown\n!\ninterface Vlan99\n description SVI Gateway for Global WAN Infrastructure Management [VLAN 99]\n ip address 10.100.9.129 255.255.255.224\n no shutdown\n!\n! Dynamic Routing Protocol: OSPF Process 1\nrouter ospf 1\n router-id 10.255.255.1\n log-adjacency-changes\n passive-interface default\n no passive-interface Vlan10\n no passive-interface Vlan20\n no passive-interface Vlan30\n no passive-interface Vlan40\n no passive-interface Vlan50\n no passive-interface Vlan99\n network 10.100.0.0 0.0.3.255 area 0\n network 10.100.4.0 0.0.1.255 area 0\n network 10.100.6.0 0.0.1.255 area 0\n network 10.100.8.0 0.0.0.255 area 0\n network 10.100.9.0 0.0.0.127 area 0\n network 10.100.9.128 0.0.0.31 area 0\n!\n! Line Security\nline con 0\n exec-timeout 5 0\n logging synchronous\n login authentication default\nline vty 0 4\n exec-timeout 10 0\n transport input ssh\n logging synchronous\n login authentication default\n!\nend\nwrite memory"
+    },
+    "accessSwitch": {
+      "filename": "global-multi-cloud-wan-iot-ACC-SW01.cfg",
+      "title": "Access Switch Configuration",
+      "targetDevice": "Cisco Catalyst 9200 (IOS-XE 17.x)",
+      "content": "! =====================================================================\n! NetArchitect Generated Configuration\n! Device: Layer 2 Access Switch 01\n! Hostname: GLOBAL-MULTI-CLOUD-WAN-&-IOT-ACC-SW01\n! Platform Assumption: Cisco Catalyst 9200L-48P (IOS-XE 17.9+)\n! =====================================================================\nversion 17.9\nservice timestamps debug datetime msec\nservice timestamps log datetime msec\nservice password-encryption\n!\nhostname GLOBAL-MULTI-CLOUD-WAN-&-IOT-ACC-SW01\n!\nenable secret 9 $9$PlaceholderAccSecret$NetArchitect\n!\nusername netadmin privilege 15 secret 9 $9$AdminSecret$2026Net\n!\nno ip routing\nip default-gateway 10.100.0.1\n!\n! Rapid PVST+ Access Protection\nspanning-tree mode rapid-pvst\nspanning-tree portfast default\nspanning-tree portfast bpduguard default\n!\n! VLAN Definitions\nvlan 999\n name QUARANTINE_NATIVE\n!\nvlan 10\n name Americas_Hub_&_Automated_Scanners\n!\nvlan 20\n name EMEA_Logistics_Operations\n!\nvlan 30\n name APAC_Automated_Sorting_Depot\n!\nvlan 40\n name Global_IoT_Telemetry_Sensors\n!\nvlan 50\n name Cloud_VPC_Hybrid_Services\n!\nvlan 99\n name Global_WAN_Infrastructure_Management\n!\n! Redundant 802.1Q Trunks to Core/Distribution\ninterface GigabitEthernet1/0/49\n description Primary Trunk to Core Switch 01\n switchport mode trunk\n switchport trunk native vlan 999\n switchport trunk allowed vlan 10,20,30,40,50,99\n switchport nonegotiate\n no shutdown\n!\ninterface GigabitEthernet1/0/50\n description Secondary Trunk to Core Switch 02\n switchport mode trunk\n switchport trunk native vlan 999\n switchport trunk allowed vlan 10,20,30,40,50,99\n switchport nonegotiate\n no shutdown\n!\n! End-User Workstation Ports (VLAN 10)\ninterface range GigabitEthernet1/0/1 - 24\n description Standard User Workstations\n switchport mode access\n switchport access vlan 10\n switchport nonegotiate\n spanning-tree portfast\n spanning-tree bpduguard enable\n power inline auto\n no shutdown\n!\n! PoE Access Point Uplink Ports\ninterface range GigabitEthernet1/0/25 - 28\n description 802.11ax Wi-Fi Access Points (PoE+ Enabled)\n switchport mode access\n switchport access vlan 10\n power inline auto\n spanning-tree portfast\n no shutdown\n!\n! Hardened Unused Ports - Administratively Disabled to prevent rogue taps\ninterface range GigabitEthernet1/0/29 - 48\n description UNUSED_RESERVED_PORTS\n switchport mode access\n switchport access vlan 999\n shutdown\n!\n! Management SVI\ninterface Vlan10\n description In-Band Management SVI\n ip address 10.100.0.5 255.255.252.0\n no shutdown\n!\nline con 0\n exec-timeout 5 0\n login local\nline vty 0 4\n transport input ssh\n exec-timeout 10 0\n login local\n!\nend\nwrite memory"
+    },
+    "edgeRouter": {
+      "filename": "global-multi-cloud-wan-iot-EDGE-RTR01.cfg",
+      "title": "Border / Edge Router Configuration",
+      "targetDevice": "Cisco ISR 4451 / ASR 1001-X (IOS-XE 17.x)",
+      "content": "! =====================================================================\n! NetArchitect Generated Configuration\n! Device: Border / WAN Edge Router 01\n! Hostname: GLOBAL-MULTI-CLOUD-WAN-&-IOT-EDGE-RTR01\n! Platform Assumption: Cisco ISR 4451 / ASR 1001-X (IOS-XE 17.9+)\n! =====================================================================\nversion 17.9\nservice timestamps debug datetime msec\nservice timestamps log datetime msec\nservice password-encryption\n!\nhostname GLOBAL-MULTI-CLOUD-WAN-&-IOT-EDGE-RTR01\n!\nenable secret 9 $9$PlaceholderRtrSecret$NetArchitect\n!\nip routing\nip cef\n!\n! Core LAN Facing Interface (Downlink to Core Switches)\ninterface GigabitEthernet0/0/0\n description Downlink to LAN Core Switch 01\n ip address 10.255.0.1 255.255.255.252\n ip ospf 1 area 0\n no shutdown\n!\n! WAN / Carrier Facing Interface\ninterface GigabitEthernet0/0/1\n description WAN Uplink to Carrier Provider / EVPL\n ip address 198.51.100.2 255.255.255.252\n ip access-group WAN_INBOUND_FILTER in\n no shutdown\n!\n!\n! External BGP Peering (eBGP AS 65001 to Cloud/Carrier AS 64512)\nrouter bgp 65001\n bgp log-neighbor-changes\n neighbor 198.51.100.1 remote-as 64512\n neighbor 198.51.100.1 description Primary Carrier / Cloud VPC Gateway\n neighbor 198.51.100.1 fall-over bfd\n !\n address-family ipv4\n  neighbor 198.51.100.1 activate\n  neighbor 198.51.100.1 prefix-list SUMMARY_ONLY out\n  network 10.100.0.0 mask 255.255.252.0\n exit-address-family\n!\n!\n! Internal Dynamic Routing: OSPF Process 1\nrouter ospf 1\n router-id 10.255.255.254\n log-adjacency-changes\n passive-interface GigabitEthernet0/0/1\n network 10.100.0.0 0.0.3.255 area 0\n network 10.100.4.0 0.0.1.255 area 0\n network 10.100.6.0 0.0.1.255 area 0\n network 10.100.8.0 0.0.0.255 area 0\n network 10.100.9.0 0.0.0.127 area 0\n network 10.100.9.128 0.0.0.31 area 0\n!\n! Static Default Route to Carrier Gateway\nip route 0.0.0.0 0.0.0.0 198.51.100.1\n!\n! WAN Edge Security Filter\nip access-list extended WAN_INBOUND_FILTER\n remark Block Inbound RFC 1918 Private Addresses (Anti-Spoofing)\n deny ip 10.0.0.0 0.255.255.255 any\n deny ip 172.16.0.0 0.15.255.255 any\n deny ip 192.168.0.0 0.0.255.255 any\n remark Permit Established State Sessions\n permit tcp any any established\n remark Permit Essential ICMP Diagnostics\n permit icmp any any echo-reply\n permit icmp any any unreachable\n permit icmp any any time-exceeded\n remark Permit IPsec VPN Tunnels\n permit esp any host 198.51.100.2\n permit udp any host 198.51.100.2 eq isakmp\n permit udp any host 198.51.100.2 eq non500-isakmp\n remark Deny All Other Inbound Traffic\n deny ip any any log\n!\nend\nwrite memory"
+    },
+    "securityAcl": {
+      "filename": "global-multi-cloud-wan-iot-SECURITY-ACLS.cfg",
+      "title": "Network Access Control Lists (ACLs) & Hardening",
+      "targetDevice": "Cisco IOS-XE Multi-Device Application",
+      "content": "! =====================================================================\n! NetArchitect Security Policy & Extended ACL Definitions\n! Target: Layer 3 Distribution Switch / Firewall Interface ACLs\n! Project: Global Multi-Cloud WAN & IoT\n! =====================================================================\n!\n! Management Plane Protection (MPP) - Authorized Admins Only\nip access-list standard ACL_MANAGEMENT_ACCESS\n remark Permit Network Operations Center (NOC) Workstations\n permit 10.255.0.0 0.0.0.255\n permit 192.168.1.0 0.0.0.31\n deny any log\n!\nremark Isolation and Policy for Americas Hub & Automated Scanners [VLAN 10]\nip access-list extended ACL_AMERICAS_HUB_&_AUTOMATED_SCANNERS\n remark Allow DHCP and DNS resolution\n permit udp 10.100.0.0 0.0.3.255 any eq bootps\n permit udp 10.100.0.0 0.0.3.255 any eq domain\n permit tcp 10.100.0.0 0.0.3.255 any eq domain\n remark Allow Outbound Web Traffic (HTTP/HTTPS)\n permit tcp 10.100.0.0 0.0.3.255 any eq 80\n permit tcp 10.100.0.0 0.0.3.255 any eq 443\n remark Prevent unauthorized cross-VLAN probing\n deny ip 10.100.0.0 0.0.3.255 10.0.0.0 0.255.255.255\n deny ip 10.100.0.0 0.0.3.255 172.16.0.0 0.15.255.255\n deny ip 10.100.0.0 0.0.3.255 192.168.0.0 0.0.255.255\n remark Permit all other external internet access\n permit ip 10.100.0.0 0.0.3.255 any\n deny ip any any log\n!\n\nremark Isolation and Policy for EMEA Logistics Operations [VLAN 20]\nip access-list extended ACL_EMEA_LOGISTICS_OPERATIONS\n remark Allow DHCP and DNS resolution\n permit udp 10.100.4.0 0.0.1.255 any eq bootps\n permit udp 10.100.4.0 0.0.1.255 any eq domain\n permit tcp 10.100.4.0 0.0.1.255 any eq domain\n remark Allow Outbound Web Traffic (HTTP/HTTPS)\n permit tcp 10.100.4.0 0.0.1.255 any eq 80\n permit tcp 10.100.4.0 0.0.1.255 any eq 443\n remark Prevent unauthorized cross-VLAN probing\n deny ip 10.100.4.0 0.0.1.255 10.0.0.0 0.255.255.255\n deny ip 10.100.4.0 0.0.1.255 172.16.0.0 0.15.255.255\n deny ip 10.100.4.0 0.0.1.255 192.168.0.0 0.0.255.255\n remark Permit all other external internet access\n permit ip 10.100.4.0 0.0.1.255 any\n deny ip any any log\n!\n\nremark Isolation and Policy for APAC Automated Sorting Depot [VLAN 30]\nip access-list extended ACL_APAC_AUTOMATED_SORTING_DEPOT\n remark Allow DHCP and DNS resolution\n permit udp 10.100.6.0 0.0.1.255 any eq bootps\n permit udp 10.100.6.0 0.0.1.255 any eq domain\n permit tcp 10.100.6.0 0.0.1.255 any eq domain\n remark Allow Outbound Web Traffic (HTTP/HTTPS)\n permit tcp 10.100.6.0 0.0.1.255 any eq 80\n permit tcp 10.100.6.0 0.0.1.255 any eq 443\n remark Prevent unauthorized cross-VLAN probing\n deny ip 10.100.6.0 0.0.1.255 10.0.0.0 0.255.255.255\n deny ip 10.100.6.0 0.0.1.255 172.16.0.0 0.15.255.255\n deny ip 10.100.6.0 0.0.1.255 192.168.0.0 0.0.255.255\n remark Permit all other external internet access\n permit ip 10.100.6.0 0.0.1.255 any\n deny ip any any log\n!\n\nremark Isolation and Policy for Global IoT Telemetry Sensors [VLAN 40]\nip access-list extended ACL_GLOBAL_IOT_TELEMETRY_SENSORS\n remark Allow DHCP and DNS resolution\n permit udp 10.100.8.0 0.0.0.255 any eq bootps\n permit udp 10.100.8.0 0.0.0.255 any eq domain\n permit tcp 10.100.8.0 0.0.0.255 any eq domain\n remark Allow Outbound Web Traffic (HTTP/HTTPS)\n permit tcp 10.100.8.0 0.0.0.255 any eq 80\n permit tcp 10.100.8.0 0.0.0.255 any eq 443\n remark Prevent unauthorized cross-VLAN probing\n deny ip 10.100.8.0 0.0.0.255 10.0.0.0 0.255.255.255\n deny ip 10.100.8.0 0.0.0.255 172.16.0.0 0.15.255.255\n deny ip 10.100.8.0 0.0.0.255 192.168.0.0 0.0.255.255\n remark Permit all other external internet access\n permit ip 10.100.8.0 0.0.0.255 any\n deny ip any any log\n!\n\nremark Isolation and Policy for Cloud VPC Hybrid Services [VLAN 50]\nip access-list extended ACL_CLOUD_VPC_HYBRID_SERVICES\n remark Allow DHCP and DNS resolution\n permit udp 10.100.9.0 0.0.0.127 any eq bootps\n permit udp 10.100.9.0 0.0.0.127 any eq domain\n permit tcp 10.100.9.0 0.0.0.127 any eq domain\n remark Allow Outbound Web Traffic (HTTP/HTTPS)\n permit tcp 10.100.9.0 0.0.0.127 any eq 80\n permit tcp 10.100.9.0 0.0.0.127 any eq 443\n remark Prevent unauthorized cross-VLAN probing\n deny ip 10.100.9.0 0.0.0.127 10.0.0.0 0.255.255.255\n deny ip 10.100.9.0 0.0.0.127 172.16.0.0 0.15.255.255\n deny ip 10.100.9.0 0.0.0.127 192.168.0.0 0.0.255.255\n remark Permit all other external internet access\n permit ip 10.100.9.0 0.0.0.127 any\n deny ip any any log\n!\n\nremark Isolation and Policy for Global WAN Infrastructure Management [VLAN 99]\nip access-list extended ACL_GLOBAL_WAN_INFRASTRUCTURE_MANAGEMENT\n remark Allow DHCP and DNS resolution\n permit udp 10.100.9.128 0.0.0.31 any eq bootps\n permit udp 10.100.9.128 0.0.0.31 any eq domain\n permit tcp 10.100.9.128 0.0.0.31 any eq domain\n remark Allow Outbound Web Traffic (HTTP/HTTPS)\n permit tcp 10.100.9.128 0.0.0.31 any eq 80\n permit tcp 10.100.9.128 0.0.0.31 any eq 443\n remark Prevent unauthorized cross-VLAN probing\n deny ip 10.100.9.128 0.0.0.31 10.0.0.0 0.255.255.255\n deny ip 10.100.9.128 0.0.0.31 172.16.0.0 0.15.255.255\n deny ip 10.100.9.128 0.0.0.31 192.168.0.0 0.0.255.255\n remark Permit all other external internet access\n permit ip 10.100.9.128 0.0.0.31 any\n deny ip any any log\n!\n!\n! End of Security Configuration"
+    }
+  },
+  "explanations": [
+    {
+      "id": "decision-media",
+      "category": "Physical Layer (Layer 1)",
+      "decision": "Selected OS2 Single-Mode Fiber (SMF 9/125 µm)",
+      "inputParameters": {
+        "linkDistanceMeters": 6200000,
+        "linkDistanceDisplay": "6200.00 km",
+        "environment": "Enterprise Backbone / Channel"
+      },
+      "appliedAlgorithm": "Rule 5.C: Distance > 400m -> OS2 Single-Mode Fiber (9/125 µm core)",
+      "mathematicalCalculation": "Distance 6200000m exceeds 400m multimode modal dispersion boundary by 6199600m. Single-mode zero-modal dispersion required.",
+      "technicalExplanation": "For link distances above 400m (6200.0 km requested), OS2 Single-Mode Fiber (9/125 µm core) eliminates modal dispersion entirely. Core diameter permits only a single fundamental transverse optical mode, enabling high-bandwidth transmission over tens of kilometers. Interface \"10GBASE-ZR SFP+ (1550nm Cooled EML / APD Receiver)\" was selected to guarantee optical link margin over the required span.",
+      "standardsReference": "Industry Standard SFF-8431 / Multi-Source Agreement (MSA)",
+      "alternativesRejected": [
+        {
+          "technology": "OM4 Multimode Fiber",
+          "reason": "Exceeds the 400m modal dispersion limit of OM4 10GBASE-SR by 6199600m; severe pulse spreading causes bit error rate (BER) collapse."
+        },
+        {
+          "technology": "Cat6a Copper",
+          "reason": "Exceeds the 100m copper channel limit by 6199900m."
+        }
+      ],
+      "assumptions": [
+        "Low water-peak ITU-T G.652.D single-mode fiber infrastructure.",
+        "Optical attenuation calculated at 1310nm (~0.35-0.4 dB/km) or 1550nm (~0.22-0.25 dB/km).",
+        "Receiver optical power monitored via SFP+ Digital Optical Monitoring (DOM / SFF-8472) to prevent receiver saturation."
+      ],
+      "warnings": [
+        "Distance exceeds 80 km without optical amplification (EDFA) or dense wavelength division multiplexing (DWDM)."
+      ]
+    },
+    {
+      "id": "decision-transceiver",
+      "category": "Optical & Transceiver Engineering",
+      "decision": "Selected Optical Interface: 10GBASE-ZR SFP+ (1550nm Cooled EML / APD Receiver)",
+      "inputParameters": {
+        "distanceMeters": 6200000,
+        "wavelength": "1550 nm (Cooled Narrow-Linewidth Laser)",
+        "connectorType": "LC Duplex (or SC/APC for Carrier Telco Hand-off)"
+      },
+      "appliedAlgorithm": "Transceiver Reach Selection vs Optical Power Budgeting",
+      "mathematicalCalculation": "Total Power Budget = Min Launch Power (0 dBm) - Max Rx Sensitivity (-24 dBm) = 24 dB. Channel Insertion Loss = Fiber Loss (6200 km x 0.22 dB/km = 1364 dB) + Connector Loss (2 dB) + Splice Loss (1 dB) = 1367 dB. Calculated Net Optical Margin = 24 dB - 1367 dB = -1343 dB (Negative Margin - Amplification Required).",
+      "technicalExplanation": "The transceiver module was selected based on transmitter launch power, photodetector sensitivity, dispersion penalty over distance, and operating wavelength (1550 nm (Cooled Narrow-Linewidth Laser)). Selecting higher-powered optics (such as ZR on a short link) could saturate the optical receiver diode, while insufficient optics would fail bit-error-rate thresholds.",
+      "standardsReference": "Industry Standard SFF-8431 / Multi-Source Agreement (MSA)",
+      "alternativesRejected": [
+        {
+          "technology": "Fixed unpluggable interface",
+          "reason": "Lacks modularity; SFP+ allows field replacement and sparing flexibility."
+        }
+      ],
+      "assumptions": [
+        "Digital Optical Monitoring (DOM/SFF-8472) enabled on all optical transceivers.",
+        "Receiver dynamic range is not exceeded; attenuators installed if power exceeds max receiver input."
+      ],
+      "warnings": [
+        "Extended reach 1550nm optics require APD receiver verification to avoid overload."
+      ]
+    },
+    {
+      "id": "decision-vlsm",
+      "category": "Network Layer (Layer 3) Addressing",
+      "decision": "Variable Length Subnet Mask (VLSM) Allocations for 6 Departments",
+      "inputParameters": {
+        "rootCidr": "10.100.0.0/19",
+        "totalRequestedHosts": 2080,
+        "departmentsCount": 6
+      },
+      "appliedAlgorithm": "Descending-Order Binary Radix Tree Subnet Allocation (RFC 4632 / CIDR)",
+      "mathematicalCalculation": "Root Network: 10.100.0.0/19 contains 8192 total IP addresses. Allocated: 2464 addresses across 6 subnets. Address Space Utilization: 30.1%. Remaining Free Space: 5728 addresses.",
+      "technicalExplanation": "Subnet requests were sorted strictly in descending order of host requirements prior to allocation. This deterministic ordering prevents memory fragmentation and guarantees that every allocated subnet starts on a naturally aligned binary address boundary (where starting address mod 2^(32 - prefix) == 0). Network and broadcast addresses are mathematically preserved, preventing subnet overlap or silent address overflow.",
+      "standardsReference": "RFC 4632 (Classless Inter-domain Routing) & RFC 1918 (Private Address Allocation)",
+      "alternativesRejected": [
+        {
+          "technology": "Classful Subnetting (FLSM / Fixed Length Subnet Masking)",
+          "reason": "Forces uniform mask (e.g. /25 for all departments), causing severe address exhaustion and waste for small departments."
+        },
+        {
+          "technology": "Arbitrary / First-Come Ordering",
+          "reason": "Causes address fragmentation where larger blocks cannot find continuous aligned binary boundaries."
+        }
+      ],
+      "assumptions": [
+        "Standard LAN segments reserve 2 addresses (Network ID and Directed Broadcast).",
+        "The first usable IPv4 address in each subnet is designated as the Default Gateway (SVI)."
+      ],
+      "warnings": []
+    },
+    {
+      "id": "decision-routing",
+      "category": "Dynamic Routing & Convergence",
+      "decision": "Selected Hybrid Routing: Multi-Area OSPF (IGP) + External BGP (eBGP / IPsec WAN)",
+      "inputParameters": {
+        "subnetsCount": 6,
+        "sitesCount": 4,
+        "cloudIntegration": true,
+        "architecture": "Dual-Tier: Internal Link-State IGP (OSPF) + Inter-Domain Path-Vector (BGP-4 / RFC 4271)"
+      },
+      "appliedAlgorithm": "Dijkstra SPF Shortest-Path First Link-State Routing with Area Hierarchies",
+      "mathematicalCalculation": "SPF Time Complexity: O(E + V log V) where V = 12 nodes, E = 20 links. Database scale remains well within sub-second Dijkstra recomputation limits (<15ms compute overhead).",
+      "technicalExplanation": "For multi-site global WAN infrastructure with 4 sites and Cloud VPC integration, a hybrid routing architecture is required. Internal site networks utilize Multi-Area OSPF for fast IGP convergence. Edge routers and Cloud Virtual Private Gateways run eBGP (AS 65001 to Cloud AS 64512), enabling policy-based path control, AS_PATH loop prevention, multi-exit discriminators (MED), and controlled route redistribution at ASBR boundaries.",
+      "standardsReference": "RFC 4271: A Border Gateway Protocol 4 (BGP-4)",
+      "alternativesRejected": [
+        {
+          "protocol": "Pure OSPF over Global Internet/Cloud",
+          "reason": "OSPF cannot cross independent administrative boundaries, cannot enforce multi-hop AS path policy filters, and exposes internal link states to third-party cloud providers."
+        },
+        {
+          "protocol": "Pure BGP for all internal desktop subnets",
+          "reason": "BGP lacks rapid link-state discovery and topology awareness necessary for high-density local campus switching and fast convergence."
+        }
+      ],
+      "assumptions": [
+        "All OSPF Area 0 routers maintain contiguous backbone adjacencies.",
+        "Point-to-point OSPF network type configured on all routed inter-switch links to bypass DR/BDR election latency."
+      ],
+      "warnings": []
+    },
+    {
+      "id": "decision-switching",
+      "category": "Data Link Layer (Layer 2) & Spanning Tree",
+      "decision": "IEEE 802.1w Rapid Spanning Tree Protocol (Rapid-PVST+) & 802.1Q Tagged Trunks",
+      "inputParameters": {
+        "endpoints": 2000,
+        "buildingsCount": 6,
+        "redundancy": "Dual-Homed Core & Distribution"
+      },
+      "appliedAlgorithm": "Rapid Spanning Tree Protocol Proposal-Agreement Handshake (RFC 802.1w)",
+      "mathematicalCalculation": "Convergence time reduced from 30-50 seconds (Legacy 802.1D Spanning Tree) to < 1.0 second (802.1w Rapid-PVST+) via direct edge-port PortFast transitions and point-to-point proposal-agreement handshakes.",
+      "technicalExplanation": "Rapid-PVST+ is configured with explicit bridge priority tuning. Core Switch 01 is configured with Priority 4096 (Root Primary), and Core Switch 02 with Priority 8192 (Root Secondary). Access switches use default 32768. BPDU Guard is enabled on all access edge ports to instantly error-disable ports if rogue switches are attached, preventing accidental root bridge takeover. Native VLAN is changed to an unused quarantine VLAN 999 to mitigate VLAN hopping attacks.",
+      "standardsReference": "IEEE 802.1Q-2018 (VLAN Tagging) & IEEE 802.1w / 802.1D-2004 (RSTP)",
+      "alternativesRejected": [
+        {
+          "technology": "Legacy 802.1D Spanning Tree Protocol (STP)",
+          "reason": "Slow 30 to 50 second convergence timers (Listening and Learning states) disrupt mission-critical traffic and VoIP streams."
+        },
+        {
+          "technology": "Unrestricted Trunking (VLAN 1 default)",
+          "reason": "Leaves trunk open to VLAN hopping and unauthorized broadcast domain leakage; native VLAN 1 presents documented security vulnerabilities."
+        }
+      ],
+      "assumptions": [
+        "Uplink interfaces configured as Point-to-Point full-duplex to enable RSTP rapid transitions.",
+        "BPDU Guard enabled globally on all PortFast access ports."
+      ],
+      "warnings": []
+    },
+    {
+      "id": "decision-qos",
+      "category": "QoS & Low-Latency SLA Engineering",
+      "decision": "Strict Priority Low-Latency Queuing (LLQ) with Sub-5ms Target Analysis",
+      "inputParameters": {
+        "linkDistanceKm": 6200,
+        "environment": "Financial Colocation / Trading Link",
+        "targetSla": "Sub-5ms RTT Latency"
+      },
+      "appliedAlgorithm": "Fiber Optical Time of Flight (ToF) & Differentiated Services (DiffServ / RFC 2474)",
+      "mathematicalCalculation": "Light propagation in silica fiber core (refractive index n ≈ 1.468): v = c / n = 299,792 km/s / 1.4682 ≈ 204,190 km/s (4.898 µs/km). One-way fiber flight delay for 6200 km = 30367.60 µs. Round-Trip Time (RTT) pure fiber propagation = 60.735 ms. Remaining latency budget for switch serialization, queuing, and carrier transport: -55.735 ms.",
+      "technicalExplanation": "Do NOT guarantee sub-5ms latency merely because QoS is enabled! Latency is governed by fundamental physics and carrier transport. While the pure optical propagation delay across 6200 km is 60.735 ms, the total end-to-end latency experienced depends on: (1) Carrier route curvature/trench routing factor (typically 1.3x - 1.5x physical distance), (2) DWDM optical transponder regeneration, (3) Buffer queuing delays, and (4) Store-and-forward switch serialization delay. QoS Low-Latency Queuing (LLQ / Expedited Forwarding DSCP 46) eliminates queuing jitter for voice and high-priority financial packets, but cannot reduce the physical optical propagation constant.",
+      "standardsReference": "RFC 2474 (DiffServ Architecture), RFC 3246 (Expedited Forwarding PHB), ITU-T G.8261",
+      "alternativesRejected": [
+        {
+          "technology": "Best-Effort First-In First-Out (FIFO) Queuing",
+          "reason": "Large bulk file transfers induce bufferbloat, increasing latency spikes well above 20-50ms."
+        }
+      ],
+      "assumptions": [
+        "Carrier EVPL path does not exceed 1.4x straight-line fiber trench distance.",
+        "Core interfaces run at 10Gbps line-rate with hardware cut-through or fast store-and-forward switching."
+      ],
+      "warnings": [
+        "Sub-5ms latency SLA requires strict carrier SLA commitments and verification via RFC 2544 / ITU-T Y.1564 BERT testing; QoS configuration alone cannot overcome transmission distance."
+      ]
+    },
+    {
+      "id": "decision-security-cloud",
+      "category": "Cloud Interconnect & WAN Perimeter Defense",
+      "decision": "IPsec AES-256-GCM / IKEv2 Cryptographic Tunneling & eBGP Peering",
+      "inputParameters": {
+        "sitesCount": 4,
+        "cloudIntegration": true,
+        "cryptoSuite": "AES-256-GCM + SHA-384 + Diffie-Hellman Group 21"
+      },
+      "appliedAlgorithm": "Authenticated Encryption with Associated Data (AEAD) & BGP Route Filtering",
+      "mathematicalCalculation": "IPsec encapsulation overhead: 20 bytes IPv4 + 8 bytes ESP + 16 bytes IV/ICV = ~56 bytes per packet. WAN MTU adjusted to 1440 bytes with TCP MSS clamping at 1400 bytes to prevent packet fragmentation.",
+      "technicalExplanation": "Site-to-site communication traversing public networks or carrier infrastructure is encrypted via IPsec using IKEv2 and modern AES-256-GCM. eBGP peers exchange only verified summary prefix-lists. Anti-spoofing ACLs drop inbound RFC 1918 traffic arriving on external interfaces (BCP 38 / RFC 2827).",
+      "standardsReference": "RFC 4301 (IPsec Security Architecture), RFC 7296 (IKEv2), RFC 2827 (Network Ingress Filtering / BCP 38)",
+      "alternativesRejected": [
+        {
+          "technology": "Unencrypted GRE Tunnels",
+          "reason": "Transmits all corporate and IoT payloads in plaintext across public transit networks."
+        },
+        {
+          "technology": "Legacy 3DES / MD5 IPsec",
+          "reason": "Cryptographically broken; susceptible to Sweet32 collision attacks and collision vulnerabilities."
+        }
+      ],
+      "assumptions": [
+        "Cloud VPC Virtual Private Gateway configured with ASN 64512.",
+        "TCP MSS Clamping enabled on all crypto tunnel interfaces to prevent PMTU black holes."
+      ],
+      "warnings": []
+    }
+  ],
+  "rawExplanations": {
+    "projectName": "Global Multi-Cloud WAN & IoT",
+    "generatedAt": "2026-11-06T08:32:26.051Z",
+    "totalDecisions": 7,
+    "decisions": [
+      {
+        "id": "decision-media",
+        "category": "Physical Layer (Layer 1)",
+        "decision": "Selected OS2 Single-Mode Fiber (SMF 9/125 µm)",
+        "inputParameters": {
+          "linkDistanceMeters": 6200000,
+          "linkDistanceDisplay": "6200.00 km",
+          "environment": "Enterprise Backbone / Channel"
+        },
+        "appliedAlgorithm": "Rule 5.C: Distance > 400m -> OS2 Single-Mode Fiber (9/125 µm core)",
+        "mathematicalCalculation": "Distance 6200000m exceeds 400m multimode modal dispersion boundary by 6199600m. Single-mode zero-modal dispersion required.",
+        "technicalExplanation": "For link distances above 400m (6200.0 km requested), OS2 Single-Mode Fiber (9/125 µm core) eliminates modal dispersion entirely. Core diameter permits only a single fundamental transverse optical mode, enabling high-bandwidth transmission over tens of kilometers. Interface \"10GBASE-ZR SFP+ (1550nm Cooled EML / APD Receiver)\" was selected to guarantee optical link margin over the required span.",
+        "standardsReference": "Industry Standard SFF-8431 / Multi-Source Agreement (MSA)",
+        "alternativesRejected": [
+          {
+            "technology": "OM4 Multimode Fiber",
+            "reason": "Exceeds the 400m modal dispersion limit of OM4 10GBASE-SR by 6199600m; severe pulse spreading causes bit error rate (BER) collapse."
+          },
+          {
+            "technology": "Cat6a Copper",
+            "reason": "Exceeds the 100m copper channel limit by 6199900m."
+          }
+        ],
+        "assumptions": [
+          "Low water-peak ITU-T G.652.D single-mode fiber infrastructure.",
+          "Optical attenuation calculated at 1310nm (~0.35-0.4 dB/km) or 1550nm (~0.22-0.25 dB/km).",
+          "Receiver optical power monitored via SFP+ Digital Optical Monitoring (DOM / SFF-8472) to prevent receiver saturation."
+        ],
+        "warnings": [
+          "Distance exceeds 80 km without optical amplification (EDFA) or dense wavelength division multiplexing (DWDM)."
+        ]
+      },
+      {
+        "id": "decision-transceiver",
+        "category": "Optical & Transceiver Engineering",
+        "decision": "Selected Optical Interface: 10GBASE-ZR SFP+ (1550nm Cooled EML / APD Receiver)",
+        "inputParameters": {
+          "distanceMeters": 6200000,
+          "wavelength": "1550 nm (Cooled Narrow-Linewidth Laser)",
+          "connectorType": "LC Duplex (or SC/APC for Carrier Telco Hand-off)"
+        },
+        "appliedAlgorithm": "Transceiver Reach Selection vs Optical Power Budgeting",
+        "mathematicalCalculation": "Total Power Budget = Min Launch Power (0 dBm) - Max Rx Sensitivity (-24 dBm) = 24 dB. Channel Insertion Loss = Fiber Loss (6200 km x 0.22 dB/km = 1364 dB) + Connector Loss (2 dB) + Splice Loss (1 dB) = 1367 dB. Calculated Net Optical Margin = 24 dB - 1367 dB = -1343 dB (Negative Margin - Amplification Required).",
+        "technicalExplanation": "The transceiver module was selected based on transmitter launch power, photodetector sensitivity, dispersion penalty over distance, and operating wavelength (1550 nm (Cooled Narrow-Linewidth Laser)). Selecting higher-powered optics (such as ZR on a short link) could saturate the optical receiver diode, while insufficient optics would fail bit-error-rate thresholds.",
+        "standardsReference": "Industry Standard SFF-8431 / Multi-Source Agreement (MSA)",
+        "alternativesRejected": [
+          {
+            "technology": "Fixed unpluggable interface",
+            "reason": "Lacks modularity; SFP+ allows field replacement and sparing flexibility."
+          }
+        ],
+        "assumptions": [
+          "Digital Optical Monitoring (DOM/SFF-8472) enabled on all optical transceivers.",
+          "Receiver dynamic range is not exceeded; attenuators installed if power exceeds max receiver input."
+        ],
+        "warnings": [
+          "Extended reach 1550nm optics require APD receiver verification to avoid overload."
+        ]
+      },
+      {
+        "id": "decision-vlsm",
+        "category": "Network Layer (Layer 3) Addressing",
+        "decision": "Variable Length Subnet Mask (VLSM) Allocations for 6 Departments",
+        "inputParameters": {
+          "rootCidr": "10.100.0.0/19",
+          "totalRequestedHosts": 2080,
+          "departmentsCount": 6
+        },
+        "appliedAlgorithm": "Descending-Order Binary Radix Tree Subnet Allocation (RFC 4632 / CIDR)",
+        "mathematicalCalculation": "Root Network: 10.100.0.0/19 contains 8192 total IP addresses. Allocated: 2464 addresses across 6 subnets. Address Space Utilization: 30.1%. Remaining Free Space: 5728 addresses.",
+        "technicalExplanation": "Subnet requests were sorted strictly in descending order of host requirements prior to allocation. This deterministic ordering prevents memory fragmentation and guarantees that every allocated subnet starts on a naturally aligned binary address boundary (where starting address mod 2^(32 - prefix) == 0). Network and broadcast addresses are mathematically preserved, preventing subnet overlap or silent address overflow.",
+        "standardsReference": "RFC 4632 (Classless Inter-domain Routing) & RFC 1918 (Private Address Allocation)",
+        "alternativesRejected": [
+          {
+            "technology": "Classful Subnetting (FLSM / Fixed Length Subnet Masking)",
+            "reason": "Forces uniform mask (e.g. /25 for all departments), causing severe address exhaustion and waste for small departments."
+          },
+          {
+            "technology": "Arbitrary / First-Come Ordering",
+            "reason": "Causes address fragmentation where larger blocks cannot find continuous aligned binary boundaries."
+          }
+        ],
+        "assumptions": [
+          "Standard LAN segments reserve 2 addresses (Network ID and Directed Broadcast).",
+          "The first usable IPv4 address in each subnet is designated as the Default Gateway (SVI)."
+        ],
+        "warnings": []
+      },
+      {
+        "id": "decision-routing",
+        "category": "Dynamic Routing & Convergence",
+        "decision": "Selected Hybrid Routing: Multi-Area OSPF (IGP) + External BGP (eBGP / IPsec WAN)",
+        "inputParameters": {
+          "subnetsCount": 6,
+          "sitesCount": 4,
+          "cloudIntegration": true,
+          "architecture": "Dual-Tier: Internal Link-State IGP (OSPF) + Inter-Domain Path-Vector (BGP-4 / RFC 4271)"
+        },
+        "appliedAlgorithm": "Dijkstra SPF Shortest-Path First Link-State Routing with Area Hierarchies",
+        "mathematicalCalculation": "SPF Time Complexity: O(E + V log V) where V = 12 nodes, E = 20 links. Database scale remains well within sub-second Dijkstra recomputation limits (<15ms compute overhead).",
+        "technicalExplanation": "For multi-site global WAN infrastructure with 4 sites and Cloud VPC integration, a hybrid routing architecture is required. Internal site networks utilize Multi-Area OSPF for fast IGP convergence. Edge routers and Cloud Virtual Private Gateways run eBGP (AS 65001 to Cloud AS 64512), enabling policy-based path control, AS_PATH loop prevention, multi-exit discriminators (MED), and controlled route redistribution at ASBR boundaries.",
+        "standardsReference": "RFC 4271: A Border Gateway Protocol 4 (BGP-4)",
+        "alternativesRejected": [
+          {
+            "protocol": "Pure OSPF over Global Internet/Cloud",
+            "reason": "OSPF cannot cross independent administrative boundaries, cannot enforce multi-hop AS path policy filters, and exposes internal link states to third-party cloud providers."
+          },
+          {
+            "protocol": "Pure BGP for all internal desktop subnets",
+            "reason": "BGP lacks rapid link-state discovery and topology awareness necessary for high-density local campus switching and fast convergence."
+          }
+        ],
+        "assumptions": [
+          "All OSPF Area 0 routers maintain contiguous backbone adjacencies.",
+          "Point-to-point OSPF network type configured on all routed inter-switch links to bypass DR/BDR election latency."
+        ],
+        "warnings": []
+      },
+      {
+        "id": "decision-switching",
+        "category": "Data Link Layer (Layer 2) & Spanning Tree",
+        "decision": "IEEE 802.1w Rapid Spanning Tree Protocol (Rapid-PVST+) & 802.1Q Tagged Trunks",
+        "inputParameters": {
+          "endpoints": 2000,
+          "buildingsCount": 6,
+          "redundancy": "Dual-Homed Core & Distribution"
+        },
+        "appliedAlgorithm": "Rapid Spanning Tree Protocol Proposal-Agreement Handshake (RFC 802.1w)",
+        "mathematicalCalculation": "Convergence time reduced from 30-50 seconds (Legacy 802.1D Spanning Tree) to < 1.0 second (802.1w Rapid-PVST+) via direct edge-port PortFast transitions and point-to-point proposal-agreement handshakes.",
+        "technicalExplanation": "Rapid-PVST+ is configured with explicit bridge priority tuning. Core Switch 01 is configured with Priority 4096 (Root Primary), and Core Switch 02 with Priority 8192 (Root Secondary). Access switches use default 32768. BPDU Guard is enabled on all access edge ports to instantly error-disable ports if rogue switches are attached, preventing accidental root bridge takeover. Native VLAN is changed to an unused quarantine VLAN 999 to mitigate VLAN hopping attacks.",
+        "standardsReference": "IEEE 802.1Q-2018 (VLAN Tagging) & IEEE 802.1w / 802.1D-2004 (RSTP)",
+        "alternativesRejected": [
+          {
+            "technology": "Legacy 802.1D Spanning Tree Protocol (STP)",
+            "reason": "Slow 30 to 50 second convergence timers (Listening and Learning states) disrupt mission-critical traffic and VoIP streams."
+          },
+          {
+            "technology": "Unrestricted Trunking (VLAN 1 default)",
+            "reason": "Leaves trunk open to VLAN hopping and unauthorized broadcast domain leakage; native VLAN 1 presents documented security vulnerabilities."
+          }
+        ],
+        "assumptions": [
+          "Uplink interfaces configured as Point-to-Point full-duplex to enable RSTP rapid transitions.",
+          "BPDU Guard enabled globally on all PortFast access ports."
+        ],
+        "warnings": []
+      },
+      {
+        "id": "decision-qos",
+        "category": "QoS & Low-Latency SLA Engineering",
+        "decision": "Strict Priority Low-Latency Queuing (LLQ) with Sub-5ms Target Analysis",
+        "inputParameters": {
+          "linkDistanceKm": 6200,
+          "environment": "Financial Colocation / Trading Link",
+          "targetSla": "Sub-5ms RTT Latency"
+        },
+        "appliedAlgorithm": "Fiber Optical Time of Flight (ToF) & Differentiated Services (DiffServ / RFC 2474)",
+        "mathematicalCalculation": "Light propagation in silica fiber core (refractive index n ≈ 1.468): v = c / n = 299,792 km/s / 1.4682 ≈ 204,190 km/s (4.898 µs/km). One-way fiber flight delay for 6200 km = 30367.60 µs. Round-Trip Time (RTT) pure fiber propagation = 60.735 ms. Remaining latency budget for switch serialization, queuing, and carrier transport: -55.735 ms.",
+        "technicalExplanation": "Do NOT guarantee sub-5ms latency merely because QoS is enabled! Latency is governed by fundamental physics and carrier transport. While the pure optical propagation delay across 6200 km is 60.735 ms, the total end-to-end latency experienced depends on: (1) Carrier route curvature/trench routing factor (typically 1.3x - 1.5x physical distance), (2) DWDM optical transponder regeneration, (3) Buffer queuing delays, and (4) Store-and-forward switch serialization delay. QoS Low-Latency Queuing (LLQ / Expedited Forwarding DSCP 46) eliminates queuing jitter for voice and high-priority financial packets, but cannot reduce the physical optical propagation constant.",
+        "standardsReference": "RFC 2474 (DiffServ Architecture), RFC 3246 (Expedited Forwarding PHB), ITU-T G.8261",
+        "alternativesRejected": [
+          {
+            "technology": "Best-Effort First-In First-Out (FIFO) Queuing",
+            "reason": "Large bulk file transfers induce bufferbloat, increasing latency spikes well above 20-50ms."
+          }
+        ],
+        "assumptions": [
+          "Carrier EVPL path does not exceed 1.4x straight-line fiber trench distance.",
+          "Core interfaces run at 10Gbps line-rate with hardware cut-through or fast store-and-forward switching."
+        ],
+        "warnings": [
+          "Sub-5ms latency SLA requires strict carrier SLA commitments and verification via RFC 2544 / ITU-T Y.1564 BERT testing; QoS configuration alone cannot overcome transmission distance."
+        ]
+      },
+      {
+        "id": "decision-security-cloud",
+        "category": "Cloud Interconnect & WAN Perimeter Defense",
+        "decision": "IPsec AES-256-GCM / IKEv2 Cryptographic Tunneling & eBGP Peering",
+        "inputParameters": {
+          "sitesCount": 4,
+          "cloudIntegration": true,
+          "cryptoSuite": "AES-256-GCM + SHA-384 + Diffie-Hellman Group 21"
+        },
+        "appliedAlgorithm": "Authenticated Encryption with Associated Data (AEAD) & BGP Route Filtering",
+        "mathematicalCalculation": "IPsec encapsulation overhead: 20 bytes IPv4 + 8 bytes ESP + 16 bytes IV/ICV = ~56 bytes per packet. WAN MTU adjusted to 1440 bytes with TCP MSS clamping at 1400 bytes to prevent packet fragmentation.",
+        "technicalExplanation": "Site-to-site communication traversing public networks or carrier infrastructure is encrypted via IPsec using IKEv2 and modern AES-256-GCM. eBGP peers exchange only verified summary prefix-lists. Anti-spoofing ACLs drop inbound RFC 1918 traffic arriving on external interfaces (BCP 38 / RFC 2827).",
+        "standardsReference": "RFC 4301 (IPsec Security Architecture), RFC 7296 (IKEv2), RFC 2827 (Network Ingress Filtering / BCP 38)",
+        "alternativesRejected": [
+          {
+            "technology": "Unencrypted GRE Tunnels",
+            "reason": "Transmits all corporate and IoT payloads in plaintext across public transit networks."
+          },
+          {
+            "technology": "Legacy 3DES / MD5 IPsec",
+            "reason": "Cryptographically broken; susceptible to Sweet32 collision attacks and collision vulnerabilities."
+          }
+        ],
+        "assumptions": [
+          "Cloud VPC Virtual Private Gateway configured with ASN 64512.",
+          "TCP MSS Clamping enabled on all crypto tunnel interfaces to prevent PMTU black holes."
+        ],
+        "warnings": []
+      }
+    ]
+  },
+  "timestamp": "2026-11-06T08:32:26.051Z"
+}
