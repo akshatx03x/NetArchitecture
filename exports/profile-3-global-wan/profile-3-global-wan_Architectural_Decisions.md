@@ -1,7 +1,7 @@
 # NetArchitect — Architectural Decision Record (ADR)
 ## Project: Global Multi-Cloud WAN & IoT
 **Network Classification:** Global WAN  
-**Generated At:** 2026-11-06T08:32:26.072Z  
+**Generated At:** 2026-11-06T08:59:10.523Z  
 **Engine:** NetArchitect Explainable Decision Engine v1.0  
 
 ---

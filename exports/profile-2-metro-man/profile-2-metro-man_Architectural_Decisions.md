@@ -1,7 +1,7 @@
 # NetArchitect — Architectural Decision Record (ADR)
 ## Project: Metro Financial Colocation MAN
 **Network Classification:** Metro MAN  
-**Generated At:** 2026-11-06T08:32:26.027Z  
+**Generated At:** 2026-11-06T08:59:10.470Z  
 **Engine:** NetArchitect Explainable Decision Engine v1.0  
 
 ---
